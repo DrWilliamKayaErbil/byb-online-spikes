@@ -3,7 +3,7 @@
 
     BackyardBrains.ContinuousView = {};
 
-    var canvas, context, height, width, x_axis, y_axis;
+    var canvas, /*context,*/ height, width, x_axis, y_axis;
 
     var c = 0;
     var timePassed = 0;
@@ -11,7 +11,7 @@
 
     BackyardBrains.ContinuousView.setup = function () {
         canvas = document.getElementById('waveformCanvas');
-        context = canvas.getContext('2d');
+        var context = canvas.getContext('2d');
 
         context.fillStyle = 'rgb(0,0,0)';
 
@@ -25,26 +25,26 @@
 
         context.save();
 
-        draw();
+        draw(context);
     }
 
-    function draw () {
+    function draw (context) {
         context.clearRect(0, 0, width, height);
-        drawXAxis();
-        drawYAxis();
-        drawTickmarks();
+        drawXAxis(context);
+        drawYAxis(context);
+        drawTickmarks(context);
 
         context.save();
         context.strokeStyle = 'rgb(0,255,0)';
-        drawWave(c);
+        drawWave(c, context);
         context.restore();
 
         timePassed = timePassed + .01;
         c = timePassed*Math.PI;
-        setTimeout(draw, 10);
+		setTimeout(function () { draw(context); }, 10);
     }
 
-    function drawWave(c) {
+    function drawWave(c, context) {
         var x = c;
         var y = Math.sin(c*2);
         context.beginPath();
@@ -57,22 +57,22 @@
         context.stroke();
     }
 
-    function drawXAxis () {
-        bluePen();
+    function drawXAxis (context) {
+        bluePen(context);
         context.moveTo(0, x_axis);
         context.lineTo(width, x_axis);
         context.stroke();
     }
 
-    function drawYAxis () {
-        bluePen();
+    function drawYAxis (context) {
+        bluePen(context);
         context.moveTo(0, 0);
         context.lineTo(0, height);
         context.stroke();
     }
 
-    function drawTickmarks () {
-        bluePen();
+    function drawTickmarks (context) {
+        bluePen(context);
         for (var i = 0; i < 9; i++) {
             context.moveTo(0, i/8 * height);
             context.lineTo(5, i/8 * height);
@@ -80,13 +80,13 @@
         }
     }
 
-    function bluePen () {
+    function bluePen (context) {
         context.strokeStyle = 'rgb(0,0,255)';
         context.lineWidth = 2;
         context.beginPath();
     }
 
-    function greenPen() {
+    function greenPen(context) {
         context.strokeStyle = 'rgb(0,255,0)';
         context.lineWidth = 2;
         context.beginPath();
