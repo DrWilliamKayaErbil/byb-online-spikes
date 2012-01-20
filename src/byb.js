@@ -9,8 +9,8 @@
     var timePassed = 0;
     var pixelScale = 100;
 
-    BackyardBrains.ContinuousView.setup = function () {
-        canvas = document.getElementById('waveformCanvas');
+    BackyardBrains.ContinuousView.setup = function (domCanvas) {
+        canvas = domCanvas;
         var context = canvas.getContext('2d');
 
         context.fillStyle = 'rgb(0,0,0)';
@@ -26,7 +26,7 @@
         context.save();
 
         draw(context);
-    }
+    };
 
     function draw (context) {
         context.clearRect(0, 0, width, height);

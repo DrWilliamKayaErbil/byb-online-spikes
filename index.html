@@ -2,7 +2,7 @@
 <html5>
 
   <head>
-    
+
     <title>Backyard Brains HTML5 Demo</title>
     <link rel="stylesheet" type="text/css"
           href="http://fonts.googleapis.com/css?family=Buda:300">
@@ -10,7 +10,7 @@
 
   </head>
 
-  <body onload="BackyardBrains.ContinuousView.setup();">
+  <body onload="BackyardBrains.ContinuousView.setup(document.getElementById('waveformCanvas'));">
 
     <h3 id="demo-title" class="text">Backyard Brains HTML5 Demo</h3>
 
@@ -41,5 +41,5 @@
   </body>
 
   <script type="text/javascript" src="src/byb.js"></script>
-  
+
 </html>
