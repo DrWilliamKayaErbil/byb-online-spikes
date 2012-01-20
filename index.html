@@ -1,16 +1,23 @@
 <!doctype html>
 <html5>
+
   <head>
+    
     <title>Backyard Brains HTML5 Demo</title>
     <link rel="stylesheet" type="text/css"
           href="http://fonts.googleapis.com/css?family=Buda:300">
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+
   </head>
+
   <body onload="BackyardBrains.ContinuousView.setup();">
+
     <h3 id="demo-title" class="text">Backyard Brains HTML5 Demo</h3>
+
     <canvas id="waveformCanvas" width="800"
             height="400">
     </canvas>
+
     <form name="sizeControl" id="sizeControl">
       <div class="controlBlock">
 
@@ -32,5 +39,7 @@
 
     </form>
   </body>
-  <script type="text/javascript" src="byb.js"></script>
+
+  <script type="text/javascript" src="src/byb.js"></script>
+  
 </html>
