@@ -18,6 +18,16 @@ describe('Analyze View', function() {
     expect(window.BackyardBrains.AnalyzeView.on).toBeDefined();
   });
 
+  it('Defines a setup function which accepts the name of a canvas element', function () {
+    av = window.BackyardBrains.AnalyzeView;
+    expect(av.setup).toBeDefined();
+    av.setup('waveformCanvas');
+    expect(av.context).not.toBeNull();
+    expect(av.height).not.toEqual(0);
+    expect(av.width).not.toEqual(0);
+
+  });
+
   it('makes sure there is a canvas available to draw on', function() {
     var context = $("#waveformCanvas").get(0).getContext('2d');
     expect(context).not.toBeNull();
