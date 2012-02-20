@@ -12,7 +12,7 @@
     that = BackyardBrains.AnalyzeView;
     
     canvas = $('#'+canvasname).get(0);
-    that.context = canvas.getContext('2d'); 
+    that.context = canvas.getContext('2d');
     that.height = canvas.height;
     that.width = canvas.width;
 
