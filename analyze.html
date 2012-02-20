@@ -1,0 +1,27 @@
+<html>
+  <head>
+  <title>Backyard Brains Spikes Analyzer</title>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="lib/underscore-min.js"></script>
+  <script type="text/javascript" src="lib/backbone-min.js"></script>
+  <script type="text/javascript" src="src/byb.js"></script>
+  <script type="text/javascript" src="src/analyze.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Buda:300">
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+
+  </head>
+
+  <h3 id="demo-title" class="text">Backyard Brains Spike Analyzer</h3>
+  
+  <canvas id="waveformCanvas" width="800" height="400"></canvas>
+  
+  <form name="controls-form">
+    <div class="controlBlock">
+      <label for="number-of-samples" class="text">Number of samples to show</label>
+      <input type="text" name="number-of-samples" />
+      <input type="button"="button" value="Set sampling length" />
+    </div>
+  </form>
+
+</html>
