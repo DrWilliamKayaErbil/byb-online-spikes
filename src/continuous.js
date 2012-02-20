@@ -95,4 +95,4 @@
         context.lineWidth = 2;
         context.beginPath();
     }
-});
+})();
