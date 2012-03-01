@@ -23,4 +23,9 @@
     that.context.save();
   };
 
+  BackyardBrains.AnalyzeView.draw = function (audioData) {
+    if (!(audioData instanceof Array)) {
+      throw "Not an array";
+    }
+  };
 })(window);

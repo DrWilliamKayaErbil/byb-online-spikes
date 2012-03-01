@@ -33,4 +33,16 @@ describe('Analyze View', function() {
     expect(context).not.toBeNull();
   });
 
+  it('Defines a "draw" function that accepts an array', function() {
+    expect(window.BackyardBrains.AnalyzeView.draw).toBeDefined();
+    expect(function(){
+      window.BackyardBrains.AnalyzeView.draw(1);
+    }).toThrow("Not an array");
+    expect(function(){
+      window.BackyardBrains.AnalyzeView.draw("derp");
+    }).toThrow("Not an array");
+  });
+
+  
+
 });
