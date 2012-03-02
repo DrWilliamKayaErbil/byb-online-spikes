@@ -41,6 +41,11 @@ describe('Analyze View', function() {
     expect(function(){
       window.BackyardBrains.AnalyzeView.draw("derp");
     }).toThrow("Not an array");
+    testarray = new Array();
+    for (i = 0; i <= window.BackyardBrains.AnalyzeView.width; i++) {
+      testarray[i] = i;
+    }
+    expect(window.BackyardBrains.AnalyzeView.draw(testarray)).toBeUndefined();
   });
 
   
