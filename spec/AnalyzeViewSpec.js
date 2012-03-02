@@ -2,6 +2,7 @@ describe('Analyze View', function() {
 
   beforeEach(function() {
     loadFixtures('canvas.html');
+    this.analyzer = new window.BackyardBrains.AnalyzeView;
   });
 
   it('Builds on the BackyardBrains namespace, which should be defined', function () {
@@ -15,37 +16,30 @@ describe('Analyze View', function() {
   });
 
   it('Extends backbone for easy event-planning', function () {
-    expect(window.BackyardBrains.AnalyzeView.on).toBeDefined();
+    expect(this.analyzer.on).toBeDefined();
   });
 
   it('Defines a setup function which accepts the name of a canvas element', function () {
-    av = window.BackyardBrains.AnalyzeView;
-    expect(av.setup).toBeDefined();
-    av.setup('waveformCanvas');
-    expect(av.context).not.toBeNull();
-    expect(av.height).not.toEqual(0);
-    expect(av.width).not.toEqual(0);
+    expect(this.analyzer.context).not.toBeNull();
+    expect(this.analyzer.height).not.toEqual(0);
+    expect(this.analyzer.width).not.toEqual(0);
 
-  });
-
-  it('makes sure there is a canvas available to draw on', function() {
-    var context = $("#waveformCanvas").get(0).getContext('2d');
-    expect(context).not.toBeNull();
   });
 
   it('Defines a "draw" function that accepts an array', function() {
-    expect(window.BackyardBrains.AnalyzeView.draw).toBeDefined();
+    var derper = this.analyzer;
+    expect(this.analyzer.draw).toBeDefined();
     expect(function(){
-      window.BackyardBrains.AnalyzeView.draw(1);
+      derper.draw(1);
     }).toThrow("Not an array");
     expect(function(){
-      window.BackyardBrains.AnalyzeView.draw("derp");
+      derper.draw("derp");
     }).toThrow("Not an array");
     testarray = new Array();
-    for (i = 0; i <= window.BackyardBrains.AnalyzeView.width; i++) {
+    for (i = 0; i <= this.analyzer.width; i++) {
       testarray[i] = i;
     }
-    expect(window.BackyardBrains.AnalyzeView.draw(testarray)).toBeUndefined();
+    expect(this.analyzer.draw(testarray)).toBeUndefined();
   });
 
   
