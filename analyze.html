@@ -1,7 +1,8 @@
 <html>
   <head>
   <title>Backyard Brains Spikes Analyzer</title>
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="lib/jquery.min.js"></script>
+  <script type="text/javascript" src="lib/jquery-ui.min.js"></script>
   <script type="text/javascript" src="lib/underscore-min.js"></script>
   <script type="text/javascript" src="lib/backbone-min.js"></script>
   <script type="text/javascript" src="src/byb.js"></script>
@@ -9,27 +10,56 @@
   <script type="text/javascript" src="taka.js"></script>
 
   <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Buda:300">
+  <link rel="stylesheet" type="text/css" href="css/sunny/jquery-ui.css">
   <link rel="stylesheet" type="text/css" href="css/styles.css">
 
   <script>
+    function pcmToMs(samps) {
+      return samps/44.1;
+    }
+
+    function setTimeShown(from, to) {
+      var timeDifference = to - from;
+      $("#numberOfSamplesShown").val(pcmToMs(timeDifference) + ' ms');
+    }
+    
     $(document).ready(function() {
+        $("#horizontalViewSizeSlider").slider({
+          range: true,
+          min: 0,
+          max: sampleData.length,
+          step: 44,
+          values: [0, sampleData.length],
+          slide: function( event, ui ) {
+            setTimeShown(ui.values[0], ui.values[1]);
+          }
+        });
+        setTimeShown($("#horizontalViewSizeSlider").slider("values", 0), $("#horizontalViewSizeSlider").slider("values", 1))
+
         window.BackyardBrains.Analyzer = new BackyardBrains.AnalyzeView;
         window.BackyardBrains.Analyzer.draw(sampleData);
     });
   </script>
 
   </head>
-
-  <h3 id="demo-title" class="text">Backyard Brains Spike Analyzer</h3>
-  
-  <canvas id="waveformCanvas" width="800" height="400"></canvas>
+  <body>
     
-  <form name="controls-form">
-    <div class="controlBlock">
-      <label for="number-of-samples" class="text">Number of samples to show</label>
-      <input type="text" id="numberOfSamples" name="numberOfSamples" />
-      <input id="setSampleLengthButton" type="button" value="Set sampling length" />
+    <div id="appContainer">
+      <div class="ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" id="title-holder">
+        <h3 id="demo-title">Backyard Brains Spike Analyzer</h3>
+      </div>
+
+      <canvas id="waveformCanvas" width="800" height="400" class="ui-corner-all"></canvas>
+
+      <div class="horizontalScrollbarHolder ui-widget
+                  ui-state-highlight ui-corner-all">
+        <div id="horizontalViewSizeSlider"></div>
+        <label for="numberOfSamplesShown">Amount of time shown:</label>
+        <input type="text" id="numberOfSamplesShown" class="sliderValue" />
+      </div>
+
     </div>
-  </form>
-  
+  </body>
+
+
 </html>
