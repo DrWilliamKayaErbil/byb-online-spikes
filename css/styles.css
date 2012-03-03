@@ -6,8 +6,10 @@ body {
 
 #appContainer {
   width: 810px;
-  margin-left: auto;
-  margin-right: auto;
+  height: 90%;
+  background: #fefafa;
+  margin: 2% auto;
+  padding: 15px;
 }
 
 #demo-title {
@@ -22,7 +24,7 @@ body {
 #waveformCanvas {
     display: block;
     margin: 15 auto;
-    background: #ffeeee;
+    background: #383838;
     border: 3px solid #EEB420;
 }
 

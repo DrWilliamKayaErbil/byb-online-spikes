@@ -2,7 +2,7 @@
 
   PCM_MIN = -32768;
   PCM_MAX = 32767;
-  BACKGROUND_UI_COLOR = 'rgb(48,96,48)';
+  BACKGROUND_UI_COLOR = 'rgb(64,128,64)';
   GREEN = 'rgb(0,255,0)';
 
   BackyardBrains.AnalyzeView = Backbone.View.extend({
