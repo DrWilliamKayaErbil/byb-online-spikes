@@ -9,21 +9,35 @@
   <script type="text/javascript" src="src/analyze.js"></script>
   <script type="text/javascript" src="taka.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Buda:300">
+  <!-- <link rel="stylesheet" type="text/css"
+  href="http://fonts.googleapis.com/css?family=Buda:300"> -->
   <link rel="stylesheet" type="text/css" href="css/sunny/jquery-ui.css">
   <link rel="stylesheet" type="text/css" href="css/styles.css">
 
   <script>
     function pcmToMs(samps) {
-      return samps/44.1;
+      return Math.round(samps/44.1);
     }
 
     function setTimeShown(from, to) {
       var timeDifference = to - from;
       $("#numberOfSamplesShown").val(pcmToMs(timeDifference) + ' ms');
+      window.BackyardBrains.Analyzer.setDrawRange(from, to);
+    }
+
+    function setAmplificationShown(times) {
+      $("#amplificationAmt").val(times + 'x');
     }
     
     $(document).ready(function() {
+        window.BackyardBrains.Analyzer = new BackyardBrains.AnalyzeView;
+        window.BackyardBrains.Analyzer.setWaveData(sampleData);
+
+        $("#redrawButton").button();
+        $("#redrawButton").click(function() {
+          window.BackyardBrains.Analyzer.draw();
+          return false;
+        });
         $("#horizontalViewSizeSlider").slider({
           range: true,
           min: 0,
@@ -34,10 +48,20 @@
             setTimeShown(ui.values[0], ui.values[1]);
           }
         });
-        setTimeShown($("#horizontalViewSizeSlider").slider("values", 0), $("#horizontalViewSizeSlider").slider("values", 1))
+        setTimeShown($("#horizontalViewSizeSlider").slider("values", 0),
+                    $("#horizontalViewSizeSlider").slider("values", 1))
 
-        window.BackyardBrains.Analyzer = new BackyardBrains.AnalyzeView;
-        window.BackyardBrains.Analyzer.draw(sampleData);
+       $("#amplificationSlider").slider({
+          min: 0.1,
+          max: 3,
+          step: 0.1,
+          value: 1,
+          orientation: "vertical",
+          slide: function( event, ui ) {
+            setAmplificationShown(ui.value);
+          }
+        });
+        setAmplificationShown($("#amplificationSlider").slider("value"));
     });
   </script>
 
@@ -49,7 +73,24 @@
         <h3 id="demo-title">Backyard Brains Spike Analyzer</h3>
       </div>
 
-      <canvas id="waveformCanvas" width="800" height="400" class="ui-corner-all"></canvas>
+      <table>
+        <tr>
+          <td>
+            <div class="verticalScrollbarHolder">
+              <input type="text" id="amplificationAmt" class="sliderValue" />
+              <div id="amplificationSlider"></div>
+            </div>
+          </td>
+          <td>
+            <div id="waveformHolder" class="ui-corner-all">
+              <canvas id="waveformCanvas" width="750" height="400" class="ui-corner-all"></canvas>
+            </div>
+            
+          </td>
+        </tr>
+      </table>
+
+      <br clear="all" />
 
       <div class="horizontalScrollbarHolder ui-widget
                   ui-state-highlight ui-corner-all">
@@ -58,6 +99,9 @@
         <input type="text" id="numberOfSamplesShown" class="sliderValue" />
       </div>
 
+      <div class="buttonHolder">
+        <button id="redrawButton">Redraw the wave</button>
+      </div>
     </div>
   </body>
 

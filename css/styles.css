@@ -5,7 +5,7 @@ body {
 }
 
 #appContainer {
-  width: 810px;
+  width: 900px;
   height: 90%;
   background: #fefafa;
   margin: 2% auto;
@@ -21,7 +21,7 @@ body {
 
 }
 
-#waveformCanvas {
+#waveformHolder {
     display: block;
     margin: 15 auto;
     background: #383838;
@@ -46,4 +46,14 @@ label {
   border: 0;
   color: #30ff30;
   font-weight: bold;
+  width: 50px;
 }
+
+.buttonHolder {
+  width: 20%;
+  margin: 15 auto;
+}
+#redrawButton {
+  width: 100%;
+}
+

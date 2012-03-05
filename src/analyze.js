@@ -14,7 +14,18 @@
       this.width = this.canvas.width;
       this.x_axis = this.height / 2;
       this.context.lineJoin = 'round';
+      this.fillBackground();
       this.context.save();
+      this.setDrawRange(0, 0);
+    },
+
+    setDrawRange: function(start, end) {
+      this.drawFrom = start;
+      this.drawTo = end;
+    },
+
+    setWaveData: function(audioData) {
+      this.audioData = audioData;
     },
 
     fillBackground: function() {
@@ -23,21 +34,30 @@
     },
 
     draw: function (audioData) {
+      if (audioData == null) {
+        audioData = this.audioData;
+      }
       if (!(audioData instanceof Array)) {
         throw "Not an array";
       }
-
+      this.context.clearRect(0,0,this.width,this.height);
       this.drawTickmarks();
-      this.drawXAxis();
 
+      this.context.save();
       this.context.strokeStyle = GREEN;
       this.context.beginPath();
       this.context.moveTo(0, this.x_axis);
-      for (var i = 0; i < audioData.length; i++) {
-        this.context.lineTo(remapValue(i, 0, audioData.length, 0, this.width),
+      if(this.drawTo == 0) {
+        var mdrawTo = audioData.length;
+      } else {
+        var mdrawTo = this.drawTo;
+      }
+      for (var i = this.drawFrom; i < mdrawTo; i++) {
+        this.context.lineTo(remapValue(i, this.drawFrom, mdrawTo, 0, this.width),
                             remapValue(audioData[i], PCM_MIN * 1.5, PCM_MAX * 1.5, 0, this.height));
       }
       this.context.stroke();
+      this.context.restore();
     },
 
     drawTickmarks: function () {
