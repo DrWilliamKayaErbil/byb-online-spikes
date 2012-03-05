@@ -34,19 +34,13 @@
       this.context.strokeStyle = GREEN;
       this.context.beginPath();
       this.context.moveTo(0, this.x_axis);
-      /*
-       $.each(audioData, function (index, value) {
-        datContext.lineTo(remapValue(index, 0, audioData.length, 0, this.width),
-                            remapValue(value, PCM_MIN * 1.5, PCM_MAX * 1.5, 0, this.height));
-       });
-       */
       for (var i = 0; i < audioData.length; i++) {
         this.context.lineTo(remapValue(i, 0, audioData.length, 0, this.width),
                             remapValue(audioData[i], PCM_MIN * 1.5, PCM_MAX * 1.5, 0, this.height));
       }
       this.context.stroke();
     },
-    
+
     drawTickmarks: function () {
     this.context.strokeStyle = BACKGROUND_UI_COLOR;
         for (var i = 0; i < 9; i++) {
