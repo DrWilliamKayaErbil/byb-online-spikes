@@ -13,7 +13,6 @@
       this.height = this.canvas.height;
       this.width = this.canvas.width;
       this.x_axis = this.height / 2;
-      //this.fillBackground();
       this.context.lineJoin = 'round';
       this.context.save();
     },
