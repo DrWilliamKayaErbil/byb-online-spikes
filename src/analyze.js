@@ -8,15 +8,22 @@
   BackyardBrains.AnalyzeView = Backbone.View.extend({
 
     initialize: function() {
+      this.amplification = 1;
       this.canvas = $('#waveformCanvas').get(0);
       this.context = this.canvas.getContext('2d');
       this.height = this.canvas.height;
       this.width = this.canvas.width;
       this.x_axis = this.height / 2;
       this.context.lineJoin = 'round';
+      this.context.lineCap = 'round';
       this.fillBackground();
       this.context.save();
       this.setDrawRange(0, 0);
+      this.context.restore();
+    },
+
+    setAmplification: function (x) {
+      this.amplification = x;
     },
 
     setDrawRange: function(start, end) {
@@ -54,7 +61,7 @@
       }
       for (var i = this.drawFrom; i < mdrawTo; i++) {
         this.context.lineTo(remapValue(i, this.drawFrom, mdrawTo, 0, this.width),
-                            remapValue(audioData[i], PCM_MIN * 1.5, PCM_MAX * 1.5, 0, this.height));
+                            remapValue(audioData[i]*this.amplification, PCM_MIN*1.5, PCM_MAX*1.5, 0, this.height));
       }
       this.context.stroke();
       this.context.restore();
@@ -64,7 +71,7 @@
     this.context.strokeStyle = BACKGROUND_UI_COLOR;
         for (var i = 0; i < 9; i++) {
             this.context.moveTo(0, i/8 * this.height);
-            this.context.lineTo(5, i/8 * this.height);
+            this.context.lineTo(10, i/8 * this.height);
             this.context.stroke();
         }
     },

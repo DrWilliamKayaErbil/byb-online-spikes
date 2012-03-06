@@ -26,6 +26,7 @@
     }
 
     function setAmplificationShown(times) {
+      window.BackyardBrains.Analyzer.setAmplification(times);
       $("#amplificationAmt").val(times + 'x');
     }
     
@@ -36,7 +37,7 @@
         $("#redrawButton").button();
         $("#redrawButton").click(function() {
           window.BackyardBrains.Analyzer.draw();
-          return false;
+          return true;
         });
         $("#horizontalViewSizeSlider").slider({
           range: true,
