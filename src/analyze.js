@@ -16,7 +16,8 @@
       this.x_axis = this.height / 2;
       this.context.lineJoin = 'round';
       this.context.lineCap = 'round';
-      this.fillBackground();
+      this.context.strokeStyle = GREEN;
+      this.drawTickmarks();
       this.context.save();
       this.setDrawRange(0, 0);
       this.context.restore();
@@ -35,10 +36,12 @@
       this.audioData = audioData;
     },
 
+    /*
     fillBackground: function() {
       this.fillStyle = 'rgb(0,0,0)';
       this.context.fillRect(0, 0, this.width, this.height);
     },
+     */
 
     draw: function (audioData) {
       if (audioData == null) {
@@ -51,7 +54,6 @@
       this.drawTickmarks();
 
       this.context.save();
-      this.context.strokeStyle = GREEN;
       this.context.beginPath();
       this.context.moveTo(0, this.x_axis);
       if(this.drawTo == 0) {
@@ -68,7 +70,6 @@
     },
 
     drawTickmarks: function () {
-    this.context.strokeStyle = BACKGROUND_UI_COLOR;
         for (var i = 0; i < 9; i++) {
             this.context.moveTo(0, i/8 * this.height);
             this.context.lineTo(10, i/8 * this.height);
@@ -77,7 +78,6 @@
     },
 
     drawXAxis: function () {
-      this.context.strokeStyle = BACKGROUND_UI_COLOR;
       this.context.beginPath();
       this.context.moveTo(0, this.x_axis);
       this.context.lineTo(this.width, this.x_axis);
