@@ -8,6 +8,7 @@
   BackyardBrains.AnalyzeView = Backbone.View.extend({
 
     initialize: function() {
+      _.bindAll(this, 'render');
       this.amplification = 1;
       this.canvas = $('#waveformCanvas').get(0);
       this.context = this.canvas.getContext('2d');
@@ -21,6 +22,10 @@
       this.context.save();
       this.setDrawRange(0, 0);
       this.context.restore();
+    },
+
+    events: {
+        'click button#redrawButton': 'draw'
     },
 
     setAmplification: function (x) {
@@ -53,7 +58,7 @@
       this.context.clearRect(0,0,this.width,this.height);
       this.drawTickmarks();
 
-      this.context.save();
+      //this.context.save();
       this.context.beginPath();
       this.context.moveTo(0, this.x_axis);
       if(this.drawTo == 0) {
@@ -66,7 +71,7 @@
                             remapValue(audioData[i]*this.amplification, PCM_MIN*1.5, PCM_MAX*1.5, 0, this.height));
       }
       this.context.stroke();
-      this.context.restore();
+      //this.context.restore();
     },
 
     drawTickmarks: function () {

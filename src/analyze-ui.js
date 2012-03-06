@@ -18,10 +18,6 @@ $(document).ready(function() {
   window.BackyardBrains.Analyzer.setWaveData(sampleData);
 
   $("#redrawButton").button();
-  $("#redrawButton").click(function() {
-    window.BackyardBrains.Analyzer.draw();
-    return true;
-  });
   $("#horizontalViewSizeSlider").slider({
     range: true,
     min: 0,
