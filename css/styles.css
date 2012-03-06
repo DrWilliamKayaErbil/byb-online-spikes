@@ -39,14 +39,19 @@ label {
 
 .horizontalScrollbarHolder {
   padding: 10px !important;
-  margin: 0 auto;
+  margin-left: 28px;
 }
 
 .sliderValue {
   border: 0;
-  color: #30ff30;
+  color: #eeb420;
   font-weight: bold;
-  width: 50px;
+}
+#amplificationAmt {
+  width: 22px;
+}
+#numberOfSamplesShown {
+  width: 35px;
 }
 
 .buttonHolder {
