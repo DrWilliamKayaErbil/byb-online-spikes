@@ -26,6 +26,9 @@ $(document).ready(function() {
     values: [0, sampleData.length],
     slide: function( event, ui ) {
       setTimeShown(ui.values[0], ui.values[1]);
+    },
+    change: function() {
+     window.BackyardBrains.Analyzer.draw();
     }
   });
   setTimeShown($("#horizontalViewSizeSlider").slider("values", 0),
@@ -39,6 +42,9 @@ $(document).ready(function() {
     orientation: "vertical",
     slide: function( event, ui ) {
       setAmplificationShown(ui.value);
+    },
+    change: function() {
+     window.BackyardBrains.Analyzer.draw();
     }
   });
   setAmplificationShown($("#amplificationSlider").slider("value"));

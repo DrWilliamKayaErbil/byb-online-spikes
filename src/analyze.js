@@ -7,8 +7,6 @@
 
   BackyardBrains.AnalyzeView = Backbone.View.extend({
 
-    el: $('body'),
-
     initialize: function() {
       _.bindAll(this, 'render', 'draw', 'setAmplification', 'setDrawRange', 'setWaveData');
       this.amplification = 1;
@@ -27,7 +25,7 @@
     },
 
     events: {
-        'click button#redrawButton': 'draw'
+        'click #redrawForm': 'draw'
     },
 
     setAmplification: function (x) {
@@ -96,4 +94,8 @@
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
   }
 
-})(window);
+}
+
+AmplificationSlider = Backbone.View.extend();
+
+)(window);
