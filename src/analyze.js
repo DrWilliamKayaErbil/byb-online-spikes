@@ -31,10 +31,6 @@ $(function () {
       this.context.restore();
     },
 
-    setAmplification: function (x) {
-      this.amplification = x;
-    },
-
     draw: function () {
       audioData = this.audioData;
       if (!(audioData instanceof Array)) {
@@ -87,10 +83,10 @@ $(function () {
         value: 1,
         orientation: "vertical",
         slide: function( event, ui ) {
-          this.setAmplificationShown(ui.value);
+          window.BackyardBrains.analyze.setAmplification(ui.value);
         },
         change: function() {
-          window.BackyardBrains.Analyzer.draw();
+          window.BackyardBrains.analyze.draw();
         }
       });
     }
@@ -112,10 +108,11 @@ $(function () {
         step: 44,
         values: [0, sampleData.length],
         slide: function( event, ui ) {
-          BackyardBrains.Analyzer.sampleslider.setTimeShown(ui.values[0], ui.values[1]);
+          window.BackyardBrains.analyze.setDrawRange(ui.values[0], ui.values[1]);
+          window.BackyardBrains.analyze.sampleslider.setTimeShown(ui.values[0], ui.values[1]);
         },
         change: function() {
-          window.BackyardBrains.Analyzer.draw();
+          window.BackyardBrains.analyze.draw();
         }
       });
       this.setTimeShown(
@@ -159,9 +156,13 @@ $(function () {
     setDrawRange: function(from, to) {
       this.canvas.drawFrom = from;
       this.canvas.drawTo = to;
+    },
+    setAmplification: function(times) {
+      this.canvas.amplification = times;
     }
   });
   BackyardBrains.AnalyzeView = AnalyzeView;
 
+  BackyardBrains.analyze = new AnalyzeView;
 });
 
