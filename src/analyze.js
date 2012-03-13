@@ -1,16 +1,18 @@
-(function (w) {
+$(function () {
 
   PCM_MIN = -32768;
   PCM_MAX = 32767;
   BACKGROUND_UI_COLOR = 'rgb(64,128,64)';
   GREEN = 'rgb(0,255,0)';
 
-  BackyardBrains.AnalyzeView = Backbone.View.extend({
+  CanvasView = Backbone.View.extend({
+
+    el: 'waveformCanvas',
 
     initialize: function() {
       _.bindAll(this, 'render', 'draw', 'setAmplification', 'setDrawRange', 'setWaveData');
       this.amplification = 1;
-      this.canvas = $('#waveformCanvas').get(0);
+      this.canvas = $('#'+this.el);
       this.context = this.canvas.getContext('2d');
       this.height = this.canvas.height;
       this.width = this.canvas.width;
@@ -22,10 +24,6 @@
       this.context.save();
       this.setDrawRange(0, 0);
       this.context.restore();
-    },
-
-    events: {
-        'click #redrawForm': 'draw'
     },
 
     setAmplification: function (x) {
@@ -41,17 +39,8 @@
       this.audioData = audioData;
     },
 
-    /*
-    fillBackground: function() {
-      this.fillStyle = 'rgb(0,0,0)';
-      this.context.fillRect(0, 0, this.width, this.height);
-    },
-     */
-
-    draw: function (audioData) {
-      if (audioData == null) {
-        audioData = this.audioData;
-      }
+    draw: function () {
+      audioData = this.audioData;
       if (!(audioData instanceof Array)) {
         throw "Not an array";
       }
@@ -89,13 +78,84 @@
       this.context.stroke();
     }
   });
+  BackyardBrains.CanvasView = CanvasView;  
 
   function remapValue(x, in_min, in_max, out_min, out_max) {
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
   }
 
-}
+  AmplificationSlider = Backbone.View.extend({
+    el: 'amplificationSlider',
+    initialize: function() {
+      $("#amplificationSlider").slider({
+        min: 0.1,
+        max: 3,
+        step: 0.1,
+        value: 1,
+        orientation: "vertical",
+        slide: function( event, ui ) {
+          setAmplificationShown(ui.value);
+        },
+        change: function() {
+          window.BackyardBrains.Analyzer.draw();
+        }
+      });
+    }
+  });
+  BackyardBrains.AmplificationSlider = AmplificationSlider;
 
-AmplificationSlider = Backbone.View.extend();
+  SamplesShownSlider = Backbone.View.extend({
+    el: 'samplesShownHolder',
+    initialize: function() {
+      $("#horizontalViewSizeSlider").slider({
+        range: true,
+        min: 0,
+        max: sampleData.length,
+        step: 44,
+        values: [0, sampleData.length],
+        slide: function( event, ui ) {
+          setTimeShown(ui.values[0], ui.values[1]);
+        },
+        change: function() {
+          window.BackyardBrains.Analyzer.draw();
+        }
+      });
+      setTimeShown($("#horizontalViewSizeSlider").slider("values", 0),
+                   $("#horizontalViewSizeSlider").slider("values", 1));
+    }
+  });
+  BackyardBrains.SamplesShownSlider = SamplesShownSlider;
+  
+  RedrawButton = Backbone.View.extend({
+    el: 'redrawButton',
+    events: {
+      "click input#redrawButton" : "redrawWave"
+    },
+    redrawWave: function () {
+      console.log('not yet implemented');
+      alert('derp');
+      // do something here.
+    },
+    render: function() {
+      $(this.el).button();
+    }
+  });
+  BackyardBrains.RedrawButton = RedrawButton;
 
-)(window);
+  AnalyzeView = Backbone.View.extend({
+    el: 'appContainer',
+    initialize: function (){
+      this.render();
+      this.canvas = new CanvasView;
+      this.setWaveData = function(data){
+        this.canvas.setWaveData(data);
+      };
+      this.draw = function () {
+        this.canvas.draw();
+      };
+    }
+  });
+  BackyardBrains.AnalyzeView = AnalyzeView;
+
+});
+

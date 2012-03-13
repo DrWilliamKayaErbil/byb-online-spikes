@@ -1,7 +1,7 @@
 describe('Analyze View', function() {
 
   beforeEach(function() {
-    loadFixtures('canvas.html');
+    loadFixtures('canvas.html','vslider.html', 'hslider.html', 'title.html');
     this.analyzer = new window.BackyardBrains.AnalyzeView;
   });
 
@@ -42,6 +42,30 @@ describe('Analyze View', function() {
     expect(this.analyzer.draw(testarray)).toBeUndefined();
   });
 
-  
+  describe('Amplification Slider', function () {
+
+    it('Defines a slider for the amplification view', function() {
+      expect(window.BackyardBrains.AnalyzeView.AmplificationSlider).toBeDefined();
+    });
+
+    it('Displays itself on render.', function () {
+      var as = new BackyardBrains.AnalyzeView.AmplificationSlider;
+      console.log(as.render().el);
+      expect(as.render()).not.toBeNull();
+    });
+
+  });
+
+  describe('Samples Shown Slider', function() {
+    it('Defines a slider for the amount of samples show in the waveform', function () {
+      expect(window.BackyardBrains.AnalyzeView.SamplesShownSlider).toBeDefined();
+    });
+    it('Displayes some html on render', function() {
+      var ss = new BackyardBrains.AnalyzeView.SamplesShownSlider;
+      console.log(ss.render().el);
+      expect(ss.render()).not.toBeNull();
+    });
+  });
+
 
 });

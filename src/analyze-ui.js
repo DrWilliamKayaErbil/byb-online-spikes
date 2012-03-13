@@ -16,36 +16,4 @@ function setAmplificationShown(times) {
 $(document).ready(function() {
   window.BackyardBrains.Analyzer = new BackyardBrains.AnalyzeView;
   window.BackyardBrains.Analyzer.setWaveData(sampleData);
-
-  $("#redrawButton").button();
-  $("#horizontalViewSizeSlider").slider({
-    range: true,
-    min: 0,
-    max: sampleData.length,
-    step: 44,
-    values: [0, sampleData.length],
-    slide: function( event, ui ) {
-      setTimeShown(ui.values[0], ui.values[1]);
-    },
-    change: function() {
-     window.BackyardBrains.Analyzer.draw();
-    }
-  });
-  setTimeShown($("#horizontalViewSizeSlider").slider("values", 0),
-               $("#horizontalViewSizeSlider").slider("values", 1));
-
-  $("#amplificationSlider").slider({
-    min: 0.1,
-    max: 3,
-    step: 0.1,
-    value: 1,
-    orientation: "vertical",
-    slide: function( event, ui ) {
-      setAmplificationShown(ui.value);
-    },
-    change: function() {
-     window.BackyardBrains.Analyzer.draw();
-    }
-  });
-  setAmplificationShown($("#amplificationSlider").slider("value"));
 });

@@ -34,23 +34,22 @@
             <div id="waveformHolder" class="ui-corner-all">
               <canvas id="waveformCanvas" width="865" height="400" class="ui-corner-all"></canvas>
             </div>
-            
           </td>
         </tr>
       </table>
-
-      <br clear="all" />
-
-      <div class="horizontalScrollbarHolder ui-widget
-                  ui-state-highlight ui-corner-all">
+      <div id="samplesShownHolder" class="horizontalScrollbarHolder ui-widget
+                                          ui-state-highlight ui-corner-all">
         <div id="horizontalViewSizeSlider"></div>
         <label for="numberOfSamplesShown">Amount of time shown:</label>
         <input type="text" id="numberOfSamplesShown" class="sliderValue" />
       </div>
 
+      <br clear="all" />
+
       <div class="buttonHolder">
         <input type="button" id="redrawButton" value="Redraw the wave" />
       </div>
+
     </div>
   </body>
 
