@@ -12,7 +12,7 @@ $(function () {
     initialize: function() {
       _.bindAll(this, 'render', 'draw', 'setAmplification', 'setDrawRange', 'setWaveData');
       this.amplification = 1;
-      this.canvas = $('#'+this.el);
+      this.canvas = $('#waveformCanvas').get(0);
       this.context = this.canvas.getContext('2d');
       this.height = this.canvas.height;
       this.width = this.canvas.width;
@@ -153,6 +153,8 @@ $(function () {
       this.draw = function () {
         this.canvas.draw();
       };
+      this.ampslider = new AmplificationSlider;
+      this.sampleslider = new SamplesShownSlider;
     }
   });
   BackyardBrains.AnalyzeView = AnalyzeView;
