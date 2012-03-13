@@ -5,12 +5,16 @@ $(function () {
   BACKGROUND_UI_COLOR = 'rgb(64,128,64)';
   GREEN = 'rgb(0,255,0)';
 
+  function pcmToMs(samps) {
+    return Math.round(samps/44.1);
+  }
+
   CanvasView = Backbone.View.extend({
 
     el: 'waveformCanvas',
 
     initialize: function() {
-      _.bindAll(this, 'render', 'draw', 'setAmplification', 'setDrawRange', 'setWaveData');
+      _.bindAll(this, 'render', 'draw');
       this.amplification = 1;
       this.canvas = $('#waveformCanvas').get(0);
       this.context = this.canvas.getContext('2d');
@@ -22,21 +26,13 @@ $(function () {
       this.context.strokeStyle = GREEN;
       this.drawTickmarks();
       this.context.save();
-      this.setDrawRange(0, 0);
+      this.drawFrom = 0;
+      this.drawTo = 0;
       this.context.restore();
     },
 
     setAmplification: function (x) {
       this.amplification = x;
-    },
-
-    setDrawRange: function(start, end) {
-      this.drawFrom = start;
-      this.drawTo = end;
-    },
-
-    setWaveData: function(audioData) {
-      this.audioData = audioData;
     },
 
     draw: function () {
@@ -69,13 +65,6 @@ $(function () {
             this.context.lineTo(10, i/8 * this.height);
             this.context.stroke();
         }
-    },
-
-    drawXAxis: function () {
-      this.context.beginPath();
-      this.context.moveTo(0, this.x_axis);
-      this.context.lineTo(this.width, this.x_axis);
-      this.context.stroke();
     }
   });
   BackyardBrains.CanvasView = CanvasView;  
@@ -85,7 +74,11 @@ $(function () {
   }
 
   AmplificationSlider = Backbone.View.extend({
-    el: 'amplificationSlider',
+    el: $('#amplificationSlider'),
+    setAmplificationShown: function (times) {
+      //Canvas.setAmplification(times);
+      $("#amplificationAmt").val(times + 'x');
+    },
     initialize: function() {
       $("#amplificationSlider").slider({
         min: 0.1,
@@ -94,7 +87,7 @@ $(function () {
         value: 1,
         orientation: "vertical",
         slide: function( event, ui ) {
-          setAmplificationShown(ui.value);
+          this.setAmplificationShown(ui.value);
         },
         change: function() {
           window.BackyardBrains.Analyzer.draw();
@@ -105,8 +98,13 @@ $(function () {
   BackyardBrains.AmplificationSlider = AmplificationSlider;
 
   SamplesShownSlider = Backbone.View.extend({
-    el: 'samplesShownHolder',
+    el: $('#samplesShownHolder'),
+    setTimeShown: function(from, to) {
+      var timeDifference = to - from;
+      $("#numberOfSamplesShown").val(pcmToMs(timeDifference) + ' ms');
+    },
     initialize: function() {
+      _.bindAll(this, 'setTimeShown', 'initialize');
       $("#horizontalViewSizeSlider").slider({
         range: true,
         min: 0,
@@ -114,47 +112,53 @@ $(function () {
         step: 44,
         values: [0, sampleData.length],
         slide: function( event, ui ) {
-          setTimeShown(ui.values[0], ui.values[1]);
+          BackyardBrains.Analyzer.sampleslider.setTimeShown(ui.values[0], ui.values[1]);
         },
         change: function() {
           window.BackyardBrains.Analyzer.draw();
         }
       });
-      setTimeShown($("#horizontalViewSizeSlider").slider("values", 0),
-                   $("#horizontalViewSizeSlider").slider("values", 1));
+      this.setTimeShown(
+        $("#horizontalViewSizeSlider").slider("values", 0),
+        $("#horizontalViewSizeSlider").slider("values", 1));
     }
   });
   BackyardBrains.SamplesShownSlider = SamplesShownSlider;
   
   RedrawButton = Backbone.View.extend({
-    el: 'redrawButton',
+    el: $('#redrawButton'),
     events: {
       "click input#redrawButton" : "redrawWave"
+    },
+    initialize: function () {
+      this.$el.button();
     },
     redrawWave: function () {
       console.log('not yet implemented');
       alert('derp');
       // do something here.
-    },
-    render: function() {
-      $(this.el).button();
     }
   });
   BackyardBrains.RedrawButton = RedrawButton;
 
   AnalyzeView = Backbone.View.extend({
-    el: 'appContainer',
+    el: $('#appContainer'),
     initialize: function (){
       this.render();
       this.canvas = new CanvasView;
       this.setWaveData = function(data){
-        this.canvas.setWaveData(data);
+        this.canvas.audioData = data;
       };
       this.draw = function () {
         this.canvas.draw();
       };
       this.ampslider = new AmplificationSlider;
       this.sampleslider = new SamplesShownSlider;
+      this.redraw = new RedrawButton;
+    },
+    setDrawRange: function(from, to) {
+      this.canvas.drawFrom = from;
+      this.canvas.drawTo = to;
     }
   });
   BackyardBrains.AnalyzeView = AnalyzeView;
