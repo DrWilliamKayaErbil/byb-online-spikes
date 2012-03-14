@@ -11,12 +11,12 @@ $(function () {
 
   CanvasView = Backbone.View.extend({
 
-    el: 'waveformCanvas',
+    el: '#waveformCanvas',
 
     initialize: function() {
       _.bindAll(this, 'render', 'draw');
       this.amplification = 1;
-      this.canvas = $('#waveformCanvas').get(0);
+      this.canvas = this.$el.get(0);
       this.context = this.canvas.getContext('2d');
       this.height = this.canvas.height;
       this.width = this.canvas.width;
@@ -131,9 +131,6 @@ $(function () {
     el: '#appContainer',
     initialize: function (){
       this.canvas = new CanvasView;
-      this.setWaveData = function(data){
-        this.canvas.audioData = data;
-      };
 
       this.ampslider = new AmplificationSlider;
       this.ampslider.on('redraw', this.canvas.draw);
@@ -146,6 +143,9 @@ $(function () {
       this.redraw = new RedrawButton;
       this.redraw.on('redraw', this.canvas.draw);
 
+    },
+    setWaveData: function(data){
+      this.canvas.audioData = data;
     },
     setDrawRange: function(from, to) {
       this.canvas.drawFrom = from;
