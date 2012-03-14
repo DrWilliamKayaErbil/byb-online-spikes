@@ -143,7 +143,6 @@ $(function () {
     }
 
   });
-  BackyardBrains.RedrawButton = RedrawButton;
 
   AnalyzeView = Backbone.View.extend({
     el: '#appContainer',
