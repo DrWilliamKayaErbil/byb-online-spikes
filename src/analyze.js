@@ -178,6 +178,7 @@ $(function () {
     }
 
   });
+  BackyardBrains.AnalyzeView = AnalyzeView;
 
   BackyardBrains.analyze = new AnalyzeView;
 });
