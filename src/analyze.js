@@ -70,24 +70,22 @@ $(function () {
   }
 
   AmplificationSlider = Backbone.View.extend({
-    el: $('#amplificationSlider'),
+    el: '#amplificationSlider',
     setAmplificationShown: function (times) {
-      //Canvas.setAmplification(times);
       $("#amplificationAmt").val(times + 'x');
     },
     initialize: function() {
-      $("#amplificationSlider").slider({
+      this.on('amplification-change', this.setAmplificationShown, this);
+      this.$el.slider({
         min: 0.1,
         max: 3,
         step: 0.1,
         value: 1,
         orientation: "vertical",
-        slide: function( event, ui ) {
-          window.BackyardBrains.analyze.setAmplification(ui.value);
-        },
-        change: function() {
-          window.BackyardBrains.analyze.draw();
-        }
+        slide: _.bind( function(event,ui){
+          this.trigger('amplification-change',ui.value);},this),
+        change: _.bind(function(){
+          this.trigger('redraw');},this)
       });
     }
   });
@@ -101,19 +99,15 @@ $(function () {
     },
     initialize: function() {
       _.bindAll(this, 'setTimeShown', 'initialize');
+      this.on('sample-size-change', this.setTimeShown, this);
       $("#horizontalViewSizeSlider").slider({
         range: true,
         min: 0,
         max: sampleData.length,
         step: 44,
         values: [0, sampleData.length],
-        slide: function( event, ui ) {
-          window.BackyardBrains.analyze.setDrawRange(ui.values[0], ui.values[1]);
-          window.BackyardBrains.analyze.sampleslider.setTimeShown(ui.values[0], ui.values[1]);
-        },
-        change: function() {
-          window.BackyardBrains.analyze.draw();
-        }
+        slide: _.bind(function(event,ui){this.trigger('sample-size-change',ui.values[0],ui.values[1]);},this),
+        change: _.bind(function() { this.trigger('redraw'); },this)
       });
       this.setTimeShown(
         $("#horizontalViewSizeSlider").slider("values", 0),
@@ -146,11 +140,15 @@ $(function () {
       this.setWaveData = function(data){
         this.canvas.audioData = data;
       };
-      this.draw = function () {
-        this.canvas.draw();
-      };
+
       this.ampslider = new AmplificationSlider;
+      this.ampslider.on('redraw', this.canvas.draw);
+      this.ampslider.on('amplification-change', this.setAmplification, this);
+
       this.sampleslider = new SamplesShownSlider;
+      this.sampleslider.on('redraw', this.canvas.draw);
+      this.sampleslider.on('sample-size-change', this.setDrawRange, this);
+
       this.redraw = new RedrawButton;
     },
     setDrawRange: function(from, to) {
