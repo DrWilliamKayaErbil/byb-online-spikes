@@ -128,9 +128,8 @@ $(function () {
   BackyardBrains.RedrawButton = RedrawButton;
 
   AnalyzeView = Backbone.View.extend({
-    el: $('#appContainer'),
+    el: '#appContainer',
     initialize: function (){
-      this.render();
       this.canvas = new CanvasView;
       this.setWaveData = function(data){
         this.canvas.audioData = data;
