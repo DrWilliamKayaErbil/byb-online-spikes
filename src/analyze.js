@@ -72,7 +72,7 @@ $(function () {
   AmplificationSlider = Backbone.View.extend({
     el: '#amplificationSlider',
     setAmplificationShown: function (times) {
-      $("#amplificationAmt").val(times + 'x');
+      $('#amplificationAmt').val(times + 'x');
     },
     initialize: function() {
       this.on('amplification-change', this.setAmplificationShown, this);
@@ -87,12 +87,13 @@ $(function () {
         change: _.bind(function(){
           this.trigger('redraw');},this)
       });
+      this.setAmplificationShown(1);
     }
   });
   BackyardBrains.AmplificationSlider = AmplificationSlider;
 
   SamplesShownSlider = Backbone.View.extend({
-    el: $('#samplesShownHolder'),
+    el: '#samplesShownHolder',
     setTimeShown: function(from, to) {
       var timeDifference = to - from;
       $("#numberOfSamplesShown").val(pcmToMs(timeDifference) + ' ms');
@@ -117,17 +118,12 @@ $(function () {
   BackyardBrains.SamplesShownSlider = SamplesShownSlider;
   
   RedrawButton = Backbone.View.extend({
-    el: $('#redrawButton'),
-    events: {
-      "click input#redrawButton" : "redrawWave"
-    },
+    el: '#redrawButton',
     initialize: function () {
       this.$el.button();
+      this.$el.click(_.bind(function(){this.trigger('redraw');}, this));
     },
     redrawWave: function () {
-      console.log('not yet implemented');
-      alert('derp');
-      // do something here.
     }
   });
   BackyardBrains.RedrawButton = RedrawButton;
@@ -150,6 +146,8 @@ $(function () {
       this.sampleslider.on('sample-size-change', this.setDrawRange, this);
 
       this.redraw = new RedrawButton;
+      this.redraw.on('redraw', this.canvas.draw);
+
     },
     setDrawRange: function(from, to) {
       this.canvas.drawFrom = from;
