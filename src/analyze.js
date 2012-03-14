@@ -120,10 +120,9 @@ $(function () {
   RedrawButton = Backbone.View.extend({
     el: '#redrawButton',
     initialize: function () {
+
       this.$el.button();
       this.$el.click(_.bind(function(){this.trigger('redraw');}, this));
-    },
-    redrawWave: function () {
     }
   });
   BackyardBrains.RedrawButton = RedrawButton;
