@@ -49,4 +49,10 @@ def provide_json_of_wav(filename):
         return "Oops!, couldn't read" + os.path.join(app.config['UPLOAD_FOLDER'], filename)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.config['DEBUG'] = True
+    if app.config['DEBUG']:
+        from werkzeug import SharedDataMiddleware
+        app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
+            '/': os.path.join(os.path.dirname(__file__), '..')
+            })
+    app.run()
