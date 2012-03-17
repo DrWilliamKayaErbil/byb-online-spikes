@@ -115,6 +115,9 @@ $(function () {
 
       this.on('sample-size-change', this.setTimeShown, this);
 
+      if (typeof sampleData == 'undefined') {
+        return;
+      }
       $("#horizontalViewSizeSlider").slider({
         range: true,
         min: 0,
