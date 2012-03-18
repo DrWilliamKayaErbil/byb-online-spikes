@@ -42,7 +42,7 @@ def provide_json_of_wav(filename):
         for i in range(w.getnframes()):
             frame = w.readframes(1)
             pcm_list.append(struct.unpack("h", frame)[0])
-        return json.dumps(pcm_list[40:4440])
+        return json.dumps(pcm_list[40:])
     else:
         return "Oops!, couldn't read" + \
                 os.path.join(app.config['UPLOAD_FOLDER'], filename)
