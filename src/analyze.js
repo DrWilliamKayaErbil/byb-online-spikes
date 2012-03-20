@@ -30,14 +30,17 @@ $(function () {
       this.height = this.canvas.height;
       this.width = this.canvas.width;
       this.x_axis = this.height / 2;
+      //this.context.save();
       this.context.lineJoin = 'round';
       this.context.lineCap = 'round';
       this.context.strokeStyle = GREEN;
+      this.context.clearRect(0,0,this.width,this.height);
+      this.context.fillStyle = 'black';
+      this.context.fillRect(0,0,this.width, this.height);
       this.drawTickmarks();
-      this.context.save();
+      //this.context.restore();
       this.drawFrom = 0;
       this.drawTo = 0;
-      this.context.restore();
     },
 
     draw: function () {
@@ -47,10 +50,14 @@ $(function () {
         throw "Not an array";
       }
 
+      console.log('drawing!');
+
+      //this.context.save();
       this.context.clearRect(0,0,this.width,this.height);
+      this.context.fillStyle = 'black';
+      this.context.fillRect(0,0,this.width, this.height);
       this.drawTickmarks();
 
-      this.context.save();
       this.context.beginPath();
       this.context.moveTo(0, this.x_axis);
 
@@ -67,10 +74,11 @@ $(function () {
                                        0, this.height));
       }
       this.context.stroke();
-      this.context.restore();
+      //this.context.restore();
     },
 
     drawTickmarks: function () {
+      this.context.beginPath();
       for (var i = 0; i < 9; i++) {
         this.context.moveTo(0, i/8 * this.height);
         this.context.lineTo(10, i/8 * this.height);
