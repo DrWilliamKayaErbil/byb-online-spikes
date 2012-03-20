@@ -1,6 +1,6 @@
-server/venv/bin/python
-server/venv/bin/easy_install
-server/venv/bin/easy_install-2.7
-server/venv/bin/pip
-server/venv/bin/pip-2.7
+server/venv/
+server/venv/
+server/venv/
+server/venv/
+server/venv/
 *.pyc
