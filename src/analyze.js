@@ -74,7 +74,7 @@ $(function () {
                                        0, this.height));
       }
       this.context.stroke();
-      //this.context.restore();
+      this.context.restore();
     },
 
     drawTickmarks: function () {
