@@ -21,7 +21,12 @@ $(function () {
       _.bindAll(this, 'render', 'draw');
       this.amplification = 1;
       this.canvas = this.$el.get(0);
-      this.context = this.canvas.getContext('2d');
+      if (this.canvas.getContext('experimental-webgl') == null) {
+        this.context = this.canvas.getContext('2d');
+      } else {
+        WebGL2D.enable(this.canvas);
+        this.context = this.canvas.getContext('webgl-2d');
+      }
       this.height = this.canvas.height;
       this.width = this.canvas.width;
       this.x_axis = this.height / 2;
