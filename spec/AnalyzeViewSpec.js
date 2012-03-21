@@ -64,6 +64,8 @@ describe('Analyze View', function() {
     
     it('Shows a checkbox on the screen', function() {
       expect($('#redrawCheckbox').get(0)).toBeDefined();
+      var cb = $('#redrawCheckbox').get(0);
+      expect(cb.tagName).toBe('INPUT');
     });
 
   });
