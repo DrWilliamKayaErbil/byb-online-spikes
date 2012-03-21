@@ -60,5 +60,12 @@ describe('Analyze View', function() {
 
   });
 
+  describe('Redraw while dragging checkbox', function() {
+    
+    it('Shows a checkbox on the screen', function() {
+      expect($('#redrawCheckbox').get(0)).toBeDefined();
+    });
+
+  });
 
 });
