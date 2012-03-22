@@ -160,6 +160,16 @@ $(function () {
 
   });
 
+  RedrawCheckbox = Backbone.View.extend({
+    el: '#redrawCheckbox',
+    events: {
+      'click': 'checkState'
+    },
+    checkState: function() {
+      this.trigger('redrawOnMove', this.$el.is(':checked'));
+    }
+  });
+
   AnalyzeView = Backbone.View.extend({
     el: '#appContainer',
 
@@ -178,6 +188,16 @@ $(function () {
       this.redraw = new RedrawButton;
       this.redraw.on('redraw', this.canvas.draw);
 
+      this.redrawCheckbox = new RedrawCheckbox;
+      this.redrawCheckbox.on('redrawOnMove', this.setRedrawOnMove, this);
+      this.redrawCheckbox.checkState();
+
+
+    },
+
+    setRedrawOnMove: function(state) {
+      this.sampleslider.redrawOnMove = state;
+      this.ampslider.redrawOnMove = state;
     },
 
     setWaveData: function(data){

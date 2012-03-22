@@ -63,11 +63,19 @@ describe('Analyze View', function() {
   describe('Redraw while dragging checkbox', function() {
     
     it('Shows a checkbox on the screen', function() {
-      expect($('#redrawCheckbox').get(0)).toBeDefined();
+      expect(this.a.redrawCheckbox.$el).toBeDefined();
       var cb = $('#redrawCheckbox').get(0);
       expect(cb.tagName).toBe('INPUT');
     });
 
+    it('Is a member of the analyzer object', function() {
+      expect(this.a.redrawCheckbox).toBeDefined();
+    });
+
+    it('sets state in the analyzer when clicked about whether or not to redraw while dragging sliders', function() {
+      expect(this.a.sampleslider.redrawOnMove).toBe(false);
+      expect(this.a.ampslider.redrawOnMove).toBe(false);
+    });
   });
 
 });
