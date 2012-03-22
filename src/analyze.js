@@ -137,8 +137,10 @@ $(function () {
       if (typeof sampleData == 'undefined') {
         return;
       }
-      $("#horizontalViewSizeSlider").slider({
-        range: true,
+      $("#horizontalViewSizeSlider").dragslider({
+        range: true,        
+        animate: true,
+        rangeDrag: true,
         min: 0,
         max: sampleData.length,
         step: 44,
