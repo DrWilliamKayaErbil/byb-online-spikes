@@ -75,6 +75,11 @@ describe('Analyze View', function() {
     it('sets state in the analyzer when clicked about whether or not to redraw while dragging sliders', function() {
       expect(this.a.sampleslider.redrawOnMove).toBe(false);
       expect(this.a.ampslider.redrawOnMove).toBe(false);
+
+      $('#redrawCheckbox').click();
+      //this.a.redrawCheckbox.trigger('click');
+      expect(this.a.sampleslider.redrawOnMove).toBe(true);
+      expect(this.a.ampslider.redrawOnMove).toBe(true);
     });
   });
 

@@ -92,6 +92,9 @@ $(function () {
 
     setAmplificationShown: function (times) {
       $('#amplificationAmt').val(times + 'x');
+      if(this.redrawOnMove) {
+        this.trigger('redraw');
+      }
     },
 
     initialize: function() {
@@ -121,6 +124,9 @@ $(function () {
     setTimeShown: function(from, to) {
       var timeDifference = to - from;
       $("#numberOfSamplesShown").val(pcmToMs(timeDifference) + ' ms');
+      if(this.redrawOnMove) {
+        this.trigger('redraw');
+      }
     },
 
     initialize: function() {
@@ -163,7 +169,7 @@ $(function () {
   RedrawCheckbox = Backbone.View.extend({
     el: '#redrawCheckbox',
     events: {
-      'click': 'checkState'
+      'click' : 'checkState'
     },
     checkState: function() {
       this.trigger('redrawOnMove', this.$el.is(':checked'));

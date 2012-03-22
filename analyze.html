@@ -53,9 +53,10 @@
         <tr>
           <td>
             <input type="checkbox" id="redrawCheckbox" />
+            <label for="redrawCheckbox">Check here to allow update
+            the wave as controls are changed. (Can be very slow on
+            non-GL browsers!)</label>
           </td>
-        </tr>
-        <tr>
           <td>
             <input type="button" id="redrawButton" value="Redraw the wave" />
           </td>
@@ -66,6 +67,7 @@
 
     <div id="uploadForm">
       <h1>Upload new File</h1>
+      <p>Currently only Mono 16-bit PCM .wav files are supported</p>
       <form id="fileForm" action="/upload" method="post" enctype="multipart/form-data">
         <p>
           <input type="file" name="spikes_file">
