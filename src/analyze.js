@@ -150,9 +150,8 @@ $(function () {
       });
 
       this.setTimeShown(
-        $("#horizontalViewSizeSlider").slider("values", 0),
-        $("#horizontalViewSizeSlider").slider("values", 1));
-
+        $("#horizontalViewSizeSlider").dragslider("values", 0),
+        $("#horizontalViewSizeSlider").dragslider("values", 1));
     }
   });
   
