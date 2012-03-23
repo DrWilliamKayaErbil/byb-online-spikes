@@ -2,6 +2,7 @@ $(document).ready(function() {
   if (typeof sampleData != 'undefined') {
     $('#uploadForm').hide();
     window.BackyardBrains.analyze.setWaveData(sampleData);
+    window.BackyardBrains.analyze.redraw.trigger('redraw');
   } else {
     $('#uploadForm').dialog({
       height: 300,

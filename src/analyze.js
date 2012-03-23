@@ -50,11 +50,9 @@ $(function () {
         throw "Not an array";
       }
 
-      console.log('drawing!');
-
       //this.context.save();
       this.context.clearRect(0,0,this.width,this.height);
-      this.context.fillStyle = 'black';
+      this.context.fillStyle = 'rgb(0,0,0)';
       this.context.fillRect(0,0,this.width, this.height);
       this.drawTickmarks();
 
@@ -198,7 +196,6 @@ $(function () {
       this.redrawCheckbox = new RedrawCheckbox;
       this.redrawCheckbox.on('redrawOnMove', this.setRedrawOnMove, this);
       this.redrawCheckbox.checkState();
-
 
     },
 
