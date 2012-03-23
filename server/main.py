@@ -16,7 +16,7 @@ def allowed_file(filename):
 
 @app.route('/')
 def main_page():
-    return '''    '''
+    return redirect('/analyze.html')
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -25,10 +25,10 @@ def upload_file():
         os.path.join(os.path.dirname(__file__), '..'))
 
 
-    file = request.files['spikes_file']
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    soundfile = request.files['spikes_file']
+    if soundfile and allowed_file(soundfile.filename):
+        filename = secure_filename(soundfile.filename)
+        soundfile.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         return render_template('analyze.html',
                                sampleData= provide_json_of_wav(filename))
     else:
