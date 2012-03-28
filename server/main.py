@@ -1,18 +1,24 @@
 import wave, sys, struct, json, os
 
-from flask import Flask, redirect, url_for, render_template
+from flask import Flask, redirect, request, url_for, render_template
 from werkzeug import secure_filename
 
 UPLOAD_FOLDER = '/tmp/'
-ALLOWED_EXTENSIONS = set(['wav','wave'])
+ALLOWED_EXTENSIONS = set(['wav','wave', 'aif', 'aiff'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+    name, extension =  filename.rsplit('.', 1)
+    return '.' in filename and extension in ALLOWED_EXTENSIONS and name is not ''
 
+def get_audio_object_for(filename):
+    "return a Wave_read or Aiff object as necessary"
+    if 'wav' in filename:
+        # assume we're a wave file
+        return wave.open(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
 @app.route('/')
 def main_page():
@@ -35,7 +41,7 @@ def upload_file():
         return "Invalid file"
 
 def provide_json_of_wav(filename):
-    w = wave.open(os.path.join(app.config['UPLOAD_FOLDER'], filename), 'rb')
+    w = get_audio_object_for(filename)
     if w:
         pcm_list = []
         for i in range(w.getnframes()):
