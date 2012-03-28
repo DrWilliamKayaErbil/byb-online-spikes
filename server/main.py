@@ -1,4 +1,4 @@
-import wave, sys, struct, json, os
+import wave, aifc, sys, struct, json, os
 
 from flask import Flask, redirect, request, url_for, render_template
 from werkzeug import secure_filename
@@ -19,6 +19,8 @@ def get_audio_object_for(filename):
     if 'wav' in filename:
         # assume we're a wave file
         return wave.open(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    elif 'aif' in filename:
+        return aifc.open(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
 @app.route('/')
 def main_page():

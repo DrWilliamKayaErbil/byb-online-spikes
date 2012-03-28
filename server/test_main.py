@@ -23,9 +23,19 @@ class AnalyzeServerTestCase(unittest.TestCase):
         obj = main.get_audio_object_for('bob.wav')
         self.assertIsInstance(obj, main.wave.Wave_read)
 
+        self.mock_aiff_file('bob.aiff')
+        obj = main.get_audio_object_for('bob.aiff')
+        self.assertIsInstance(obj, main.aifc.Aifc_read)
+
+    def mock_aiff_file(self, filename):
+        aiff_file = main.aifc.open('/tmp/'+filename, 'w')
+        self.write_data_to_audio_file(aiff_file)
+
     def mock_wave_file(self, filename):
         wav_file = main.wave.open('/tmp/'+filename, 'w')
+        self.write_data_to_audio_file(wav_file)
 
+    def write_data_to_audio_file(self, audio_obj):
         frate = 44100.0 # framerate as a float
         amp = 8000.0 # multiplier for amplitude
         freq = 440
@@ -40,14 +50,13 @@ class AnalyzeServerTestCase(unittest.TestCase):
         comptype = "NONE"
         compname = "not compressed"
         # set all the parameters at once
-        wav_file.setparams((nchannels, sampwidth, framerate, nframes,
+        audio_obj.setparams((nchannels, sampwidth, framerate, nframes,
                     comptype, compname))
         # now write out the file ...
-        print( "may take a moment ..." )
         for s in sine_list:
             # write the audio frames to file
-            wav_file.writeframes(main.struct.pack('h', int(s*amp/2)))
-        wav_file.close()
+            audio_obj.writeframes(main.struct.pack('h', int(s*amp/2)))
+        audio_obj.close()
 
 if __name__ == '__main__':
     unittest.main()
