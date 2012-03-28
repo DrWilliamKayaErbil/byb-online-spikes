@@ -1,6 +1,6 @@
 import wave, sys, struct, json, os
 
-from flask import Flask, request, redirect, url_for, render_template
+from flask import Flask, redirect, url_for, render_template
 from werkzeug import secure_filename
 
 UPLOAD_FOLDER = '/tmp/'
@@ -34,7 +34,6 @@ def upload_file():
     else:
         return "Invalid file"
 
-@app.route('/json-for/<filename>')
 def provide_json_of_wav(filename):
     w = wave.open(os.path.join(app.config['UPLOAD_FOLDER'], filename), 'rb')
     if w:
