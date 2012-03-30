@@ -76,11 +76,26 @@ describe('Analyze View', function() {
       expect(this.a.sampleslider.redrawOnMove).toBe(false);
       expect(this.a.ampslider.redrawOnMove).toBe(false);
 
-      $('#redrawCheckbox').click();
+      $('#redrawCheckbox').trigger('click');
       //this.a.redrawCheckbox.trigger('click');
       expect(this.a.sampleslider.redrawOnMove).toBe(true);
       expect(this.a.ampslider.redrawOnMove).toBe(true);
     });
   });
+
+  describe('Play button', function (){
+    it('shows a button on the screen', function() {
+      expect(this.a.playButton.$el).toBeDefined();
+      expect(this.a.playButton.$el.html()).not.toBeNull();
+    });
+
+    it('triggers startplayback when it is called', function() {
+      spyOn(this.a.playButton, 'startplayback');
+      // $('#playback').click();
+      this.a.playButton.trigger('click');
+      expect(this.a.playButton.startplayback).toHaveBeenCalled();
+    });
+  });
+
 
 });
