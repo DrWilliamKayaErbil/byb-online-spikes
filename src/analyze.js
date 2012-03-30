@@ -163,11 +163,6 @@ $(function () {
 
   PlayButton = Backbone.View.extend({
     el: '#playback',
-
-    initialize: function() {
-      this.$el.button();
-    },
-
     events: {
       'click' : 'startplayback'
     },
@@ -180,10 +175,10 @@ $(function () {
   RedrawCheckbox = Backbone.View.extend({
     el: '#redrawCheckbox',
     events: {
-      'click' : 'checkState'
+      'change' : 'checkState'
     },
-    checkState: function() {
-      this.trigger('redrawOnMove', this.$el.is(':checked'));
+    checkState: function(e) {
+      this.trigger('redrawOnMove', e.currentTarget.checked);
     }
   });
 
@@ -207,7 +202,7 @@ $(function () {
 
       this.redrawCheckbox = new RedrawCheckbox;
       this.redrawCheckbox.on('redrawOnMove', this.setRedrawOnMove, this);
-      this.redrawCheckbox.checkState();
+      this.redrawCheckbox.trigger('redrawOnMove', false);
 
       this.playButton = new PlayButton;
 
