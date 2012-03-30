@@ -32,7 +32,6 @@ def upload_file():
     app.jinja_loader = FileSystemLoader(
         os.path.join(os.path.dirname(__file__), '..'))
 
-
     soundfile = request.files['spikes_file']
     if soundfile and allowed_file(soundfile.filename):
         filename = secure_filename(soundfile.filename)
@@ -45,10 +44,20 @@ def upload_file():
 def provide_json_of_wav(filename):
     w = get_audio_object_for(filename)
     if w:
+        if w.__class__ == wave.Wave_read:
+            fmt = "<h"
+        else:
+            fmt = ">h"
+        if w.getnchannels() > 1:
+            fmt += 'h'
+
         pcm_list = []
         for i in range(w.getnframes()):
             frame = w.readframes(1)
-            pcm_list.append(struct.unpack("h", frame)[0])
+            if len(frame) != struct.calcsize(fmt):
+                continue
+            pcm_list.append(struct.unpack(fmt, frame)[0])
+
         return json.dumps(pcm_list)
     else:
         return "Oops!, couldn't read" + \
