@@ -24,7 +24,7 @@ body {
 #waveformHolder {
     display: block;
     margin: 15 auto;
-    background: #383838;
+    background: #000;
     border: 3px solid #EEB420;
 }
 

@@ -35,10 +35,9 @@ $(function () {
       this.context.lineCap = 'round';
       this.context.strokeStyle = GREEN;
       this.context.clearRect(0,0,this.width,this.height);
-      this.context.fillStyle = 'black';
+      this.context.fillStyle = 'rgb(0,0,0)';
       this.context.fillRect(0,0,this.width, this.height);
       this.drawTickmarks();
-      //this.context.restore();
       this.drawFrom = 0;
       this.drawTo = 0;
     },
@@ -50,7 +49,6 @@ $(function () {
         throw "Not an array";
       }
 
-      //this.context.save();
       this.context.clearRect(0,0,this.width,this.height);
       this.context.fillStyle = 'rgb(0,0,0)';
       this.context.fillRect(0,0,this.width, this.height);
