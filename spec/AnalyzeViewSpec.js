@@ -76,8 +76,8 @@ describe('Analyze View', function() {
       expect(this.a.sampleslider.redrawOnMove).toBe(false);
       expect(this.a.ampslider.redrawOnMove).toBe(false);
 
-      $('#redrawCheckbox').trigger('click');
-      //this.a.redrawCheckbox.trigger('click');
+      this.a.redrawCheckbox.$el.trigger('click');
+      
       expect(this.a.sampleslider.redrawOnMove).toBe(true);
       expect(this.a.ampslider.redrawOnMove).toBe(true);
     });
@@ -90,10 +90,9 @@ describe('Analyze View', function() {
     });
 
     it('triggers startplayback when it is called', function() {
-      spyOn(this.a.playButton, 'startplayback');
-      // $('#playback').click();
-      this.a.playButton.trigger('click');
-      expect(this.a.playButton.startplayback).toHaveBeenCalled();
+      spyOn(this.a.playButton, 'trigger');
+      this.a.playButton.$el.trigger('click');
+      expect(this.a.playButton.trigger).toHaveBeenCalledWith('startplayback');
     });
   });
 
