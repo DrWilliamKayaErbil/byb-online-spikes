@@ -58,6 +58,35 @@ describe('Analyze View', function() {
       expect($('#numberOfSamplesShown').val()).toBe('2 ms');
     });
 
+    it('defines a "setReasonableViewingWindow" function that makes the size less than 100% but greater than 20ms', function() {
+      expect(this.a.sampleslider.setReasonableViewingWindow).toBeDefined();
+
+      var mockData = [];
+
+      _.each(_.range(10), function(num) {
+        _.each(_.range(441), function (inum) {
+          mockData.push(inum);
+        });
+      });
+
+      console.log(mockData);
+
+      this.a.setWaveData(mockData);
+      this.a.sampleslider.$el.dragslider('values', 0, 0);
+      this.a.sampleslider.$el.dragslider('values', 0, mockData.length);
+
+      this.a.playButton.trigger('startplayback');
+
+      start = $('#horizontalViewSizeSlider').dragslider('values')[0];
+      end = $('#horizontalViewSizeSlider').dragslider('values')[1];
+
+      expect(start).toBe(0);
+      expect(end).not.toBe(0);
+      expect(end).not.toBe(mockData.length);
+      console.log($('#horizontalViewSizeSlider').dragslider('values'));
+
+    });
+
   });
 
   describe('Redraw while dragging checkbox', function() {

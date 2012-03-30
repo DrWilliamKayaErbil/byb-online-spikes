@@ -127,7 +127,7 @@ $(function () {
 
     initialize: function() {
       _.bindAll(this, 'setTimeShown', 'initialize');
-
+ 
       this.on('sample-size-change', this.setTimeShown, this);
 
       if (typeof sampleData == 'undefined') {
@@ -152,7 +152,17 @@ $(function () {
       this.setTimeShown(
         $("#horizontalViewSizeSlider").dragslider("values", 0),
         $("#horizontalViewSizeSlider").dragslider("values", 1));
+    },
+
+    setReasonableViewingWindow: function() {
+      start = this.$el.dragslider('values', 0);
+      end = this.$el.dragslider('values', 0);
+
+      if(end - start > sampleData.length/4){
+        return True;
+      }
     }
+    
   });
   
   RedrawButton = Backbone.View.extend({
@@ -245,7 +255,7 @@ $(function () {
     },
 
     startplayback: function() {
-      
+      this.sampleslider.setReasonableViewingWindow();
     }
 
   });
