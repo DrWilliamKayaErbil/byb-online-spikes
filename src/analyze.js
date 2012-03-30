@@ -141,8 +141,12 @@ $(function () {
         max: sampleData.length,
         step: 44,
         values: [0, sampleData.length],
-        slide: _.bind(function(event,ui){this.trigger('sample-size-change',ui.values[0],ui.values[1]);},this),
-        change: _.bind(function() { this.trigger('redraw'); },this)
+        slide: _.bind(function(event,ui){
+          this.trigger('sample-size-change',ui.values[0],ui.values[1]);
+        },this),
+        change: _.bind(function() {
+          this.trigger('redraw');
+        },this)
       });
 
       this.setTimeShown(
@@ -156,13 +160,24 @@ $(function () {
 
     initialize: function () {
       this.$el.button();
-      this.$el.click(_.bind(function(){this.trigger('redraw');}, this));
-    }
+    },
 
+    events : {
+      'click': 'triggerRedraw'
+    },
+
+    'triggerRedraw' : function() {
+      this.trigger('redraw');
+    }
   });
 
   PlayButton = Backbone.View.extend({
     el: '#playback',
+
+    initialize: function() {
+      this.$el.button();
+    },
+
     events: {
       'click' : 'startplayback'
     },
@@ -174,9 +189,11 @@ $(function () {
 
   RedrawCheckbox = Backbone.View.extend({
     el: '#redrawCheckbox',
+
     events: {
       'change' : 'checkState'
     },
+
     checkState: function(e) {
       this.trigger('redrawOnMove', e.currentTarget.checked);
     }
@@ -205,6 +222,7 @@ $(function () {
       this.redrawCheckbox.trigger('redrawOnMove', false);
 
       this.playButton = new PlayButton;
+      this.playButton.on('startplayback', this.startplayback, this);
 
     },
 
@@ -224,6 +242,10 @@ $(function () {
 
     setAmplification: function(times) {
       this.canvas.amplification = times;
+    },
+
+    startplayback: function() {
+      
     }
 
   });

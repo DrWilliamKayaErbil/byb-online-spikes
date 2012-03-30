@@ -94,6 +94,7 @@ describe('Analyze View', function() {
       this.a.playButton.$el.trigger('click');
       expect(this.a.playButton.trigger).toHaveBeenCalledWith('startplayback');
     });
+
   });
 
 
