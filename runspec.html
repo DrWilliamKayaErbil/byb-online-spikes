@@ -33,7 +33,6 @@
       var trivialReporter = new jasmine.TrivialReporter();
 
       jasmineEnv.addReporter(trivialReporter);
-
       jasmineEnv.specFilter = function(spec) {
         return trivialReporter.specFilter(spec);
       };
@@ -51,6 +50,7 @@
         jasmineEnv.execute();
       }
 
+      setTimeout('window.location.reload();', 60000);
     })();
   </script>
 

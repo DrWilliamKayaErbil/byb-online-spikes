@@ -4,7 +4,14 @@ describe('Analyze View', function() {
     loadFixtures('app.html');
     window.sampleData = [];
     this.a = new BackyardBrains.AnalyzeView;
-    this.a.setWaveData([]);
+    var mockData = [];
+
+    _.each(_.range(10), function(num) {
+      _.each(_.range(441), function (inum) {
+        mockData.push(inum);
+      });
+    });
+    this.a.setWaveData(mockData);
   });
 
   it('Builds on the BackyardBrains namespace, which should be defined', function () {
@@ -61,19 +68,8 @@ describe('Analyze View', function() {
     it('defines a "setReasonableViewingWindow" function that makes the size less than 100% but greater than 20ms', function() {
       expect(this.a.sampleslider.setReasonableViewingWindow).toBeDefined();
 
-      var mockData = [];
-
-      _.each(_.range(10), function(num) {
-        _.each(_.range(441), function (inum) {
-          mockData.push(inum);
-        });
-      });
-
-      console.log(mockData);
-
-      this.a.setWaveData(mockData);
       this.a.sampleslider.$el.dragslider('values', 0, 0);
-      this.a.sampleslider.$el.dragslider('values', 0, mockData.length);
+      this.a.sampleslider.$el.dragslider('values', 0, this.a.canvas.audioData.length);
 
       this.a.playButton.trigger('startplayback');
 
@@ -82,7 +78,7 @@ describe('Analyze View', function() {
 
       expect(start).toBe(0);
       expect(end).not.toBe(0);
-      expect(end).not.toBe(mockData.length);
+      expect(end).not.toBe(this.a.canvas.audioData.length);
       console.log($('#horizontalViewSizeSlider').dragslider('values'));
 
     });

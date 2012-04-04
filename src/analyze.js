@@ -130,17 +130,14 @@ $(function () {
  
       this.on('sample-size-change', this.setTimeShown, this);
 
-      if (typeof sampleData == 'undefined') {
-        return;
-      }
       $("#horizontalViewSizeSlider").dragslider({
         range: true,        
         animate: true,
         rangeDrag: true,
         min: 0,
-        max: sampleData.length,
+        max: 441000,
         step: 44,
-        values: [0, sampleData.length],
+        values: [0, 441000],
         slide: _.bind(function(event,ui){
           this.trigger('sample-size-change',ui.values[0],ui.values[1]);
         },this),
@@ -149,16 +146,26 @@ $(function () {
         },this)
       });
 
+      
+    },
+
+    setSliders : function(begin, end) {
+      $("#horizontalViewSizeSlider").dragslider('option', "max", end);
+      $("#horizontalViewSizeSlider").dragslider("values", [begin, end]);
+      $("#horizontalViewSizeSlider").dragslider('refresh');
+
       this.setTimeShown(
         $("#horizontalViewSizeSlider").dragslider("values", 0),
         $("#horizontalViewSizeSlider").dragslider("values", 1));
     },
 
     setReasonableViewingWindow: function() {
-      start = this.$el.dragslider('values', 0);
-      end = this.$el.dragslider('values', 0);
+      var start = this.$el.dragslider('values', 0);
+      var end = this.$el.dragslider('values', 1);
+      var length = end - start;
 
-      if(end - start > sampleData.length/4){
+      if(length > sampleData.length/4){
+        
         return True;
       }
     }
@@ -243,6 +250,7 @@ $(function () {
 
     setWaveData: function(data){
       this.canvas.audioData = data;
+      this.sampleslider.setSliders(0, data.length);
     },
 
     setDrawRange: function(from, to) {
