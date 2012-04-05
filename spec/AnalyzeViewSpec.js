@@ -68,8 +68,8 @@ describe('Analyze View', function() {
     it('defines a "setReasonableViewingWindow" function that makes the size less than 100% but greater than 20ms', function() {
       expect(this.a.sampleslider.setReasonableViewingWindow).toBeDefined();
 
-      this.a.sampleslider.$el.dragslider('values', 0, 0);
-      this.a.sampleslider.$el.dragslider('values', 1, this.a.canvas.audioData.length);
+      $('#horizontalViewSizeSlider').dragslider('values', 0, 0);
+      $('#horizontalViewSizeSlider').dragslider('values', 1, this.a.canvas.audioData.length);
 
       // this should cause the setReasonableViewingWindow to get called.
       this.a.playButton.trigger('startplayback');
@@ -81,6 +81,10 @@ describe('Analyze View', function() {
       expect(end).not.toBe(0);
       expect(end).not.toBe(this.a.canvas.audioData.length);
       console.log($('#horizontalViewSizeSlider').dragslider('values'));
+
+    });
+
+    it('defines a "stepTime" function that takes a millisecond value and moves the view by that much time', function() {
 
     });
 
