@@ -69,8 +69,9 @@ describe('Analyze View', function() {
       expect(this.a.sampleslider.setReasonableViewingWindow).toBeDefined();
 
       this.a.sampleslider.$el.dragslider('values', 0, 0);
-      this.a.sampleslider.$el.dragslider('values', 0, this.a.canvas.audioData.length);
+      this.a.sampleslider.$el.dragslider('values', 1, this.a.canvas.audioData.length);
 
+      // this should cause the setReasonableViewingWindow to get called.
       this.a.playButton.trigger('startplayback');
 
       start = $('#horizontalViewSizeSlider').dragslider('values')[0];
@@ -86,7 +87,7 @@ describe('Analyze View', function() {
   });
 
   describe('Redraw while dragging checkbox', function() {
-    
+
     it('Shows a checkbox on the screen', function() {
       expect(this.a.redrawCheckbox.$el).toBeDefined();
       var cb = $('#redrawCheckbox').get(0);
@@ -102,7 +103,7 @@ describe('Analyze View', function() {
       expect(this.a.ampslider.redrawOnMove).toBe(false);
 
       this.a.redrawCheckbox.$el.trigger('click');
-      
+
       expect(this.a.sampleslider.redrawOnMove).toBe(true);
       expect(this.a.ampslider.redrawOnMove).toBe(true);
     });

@@ -116,7 +116,7 @@ $(function () {
 
   SamplesShownSlider = Backbone.View.extend({
     el: '#samplesShownHolder',
-    
+
     setTimeShown: function(from, to) {
       var timeDifference = to - from;
       $("#numberOfSamplesShown").val(pcmToMs(timeDifference) + ' ms');
@@ -127,11 +127,11 @@ $(function () {
 
     initialize: function() {
       _.bindAll(this, 'setTimeShown', 'initialize');
- 
+
       this.on('sample-size-change', this.setTimeShown, this);
 
       $("#horizontalViewSizeSlider").dragslider({
-        range: true,        
+        range: true,
         animate: true,
         rangeDrag: true,
         min: 0,
@@ -146,7 +146,7 @@ $(function () {
         },this)
       });
 
-      
+
     },
 
     setSliders : function(begin, end) {
@@ -160,18 +160,24 @@ $(function () {
     },
 
     setReasonableViewingWindow: function() {
-      var start = this.$el.dragslider('values', 0);
-      var end = this.$el.dragslider('values', 1);
+      var start = $('#horizontalViewSizeSlider').dragslider('values')[0];
+      var end = $('#horizontalViewSizeSlider').dragslider('values')[1];
+
       var length = end - start;
 
       if(length > sampleData.length/4){
-        
-        return True;
+        length = sampleData.length/4;
       }
+      // Make sure we are at least 20 ms
+      if(length < 882) {
+        length = 882;
+      }
+
+      $('#horizontalViewSizeSlider').dragslider('values', [0, length]);
     }
-    
+
   });
-  
+
   RedrawButton = Backbone.View.extend({
     el: '#redrawButton',
 
@@ -271,4 +277,3 @@ $(function () {
 
   BackyardBrains.analyze = new AnalyzeView;
 });
-
