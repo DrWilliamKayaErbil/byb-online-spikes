@@ -146,7 +146,6 @@ $(function () {
         },this)
       });
 
-
     },
 
     setSliders : function(begin, end) {
@@ -174,6 +173,10 @@ $(function () {
       }
 
       $('#horizontalViewSizeSlider').dragslider('values', [0, length]);
+    },
+
+    stepTime: function() {
+
     }
 
   });

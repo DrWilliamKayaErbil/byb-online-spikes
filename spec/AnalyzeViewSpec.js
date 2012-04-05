@@ -86,6 +86,8 @@ describe('Analyze View', function() {
 
     it('defines a "stepTime" function that takes a millisecond value and moves the view by that much time', function() {
 
+      expect(this.a.sampleslider.stepTime).toBeDefined();
+
     });
 
   });
