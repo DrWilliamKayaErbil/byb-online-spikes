@@ -138,11 +138,12 @@ $(function () {
         max: 441000,
         step: 44,
         values: [0, 441000],
-        slide: _.bind(function(event,ui){
+/*        slide: _.bind(function(event,ui){
           this.trigger('sample-size-change',ui.values[0],ui.values[1]);
-        },this),
-        change: _.bind(function() {
-          this.trigger('redraw');
+        },this), */
+        change: _.bind(function(event, ui) {
+          this.trigger('sample-size-change',ui.values[0],ui.values[1]);
+          //this.trigger('redraw');
         },this)
       });
 
@@ -175,7 +176,7 @@ $(function () {
       $('#horizontalViewSizeSlider').dragslider('values', [0, length]);
     },
 
-    stepTime: function() {
+    stepTime: function(ms) {
 
     }
 

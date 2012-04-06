@@ -88,6 +88,10 @@ describe('Analyze View', function() {
 
       expect(this.a.sampleslider.stepTime).toBeDefined();
 
+      this.a.sampleslider.setReasonableViewingWindow();
+      start = $('#horizontalViewSizeSlider').dragslider('values')[0];
+      end = $('#horizontalViewSizeSlider').dragslider('values')[1];
+
     });
 
   });
