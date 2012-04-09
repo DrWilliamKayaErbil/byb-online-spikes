@@ -13,11 +13,11 @@ $(document).ready(function() {
           $('#fileForm').submit();
         },
         Cancel: function() {
-	  $( this ).dialog( "close" );
-	}
+          $( this ).dialog( "close" );
+        }
       },
       close: function() {
-	allFields.val( "" ).removeClass( "ui-state-error" );
+        allFields.val( "" ).removeClass( "ui-state-error" );
       }
     });
   }
