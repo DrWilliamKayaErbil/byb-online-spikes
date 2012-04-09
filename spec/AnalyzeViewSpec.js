@@ -92,6 +92,13 @@ describe('Analyze View', function() {
       start = $('#horizontalViewSizeSlider').dragslider('values')[0];
       end = $('#horizontalViewSizeSlider').dragslider('values')[1];
 
+      this.a.sampleslider.stepTime(1);
+
+      newstart = $('#horizontalViewSizeSlider').dragslider('values')[0];
+      newend = $('#horizontalViewSizeSlider').dragslider('values')[1];
+      expect(newstart).toBe(start+44);
+      expect(newend).toBe(end+44);
+
     });
 
   });

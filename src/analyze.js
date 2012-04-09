@@ -9,6 +9,10 @@ $(function () {
     return Math.round(samps/44.1);
   }
 
+  function msToPcm(ms) {
+    return Math.round(44.1 * ms);
+  }
+
   function remapValue(x, in_min, in_max, out_min, out_max) {
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
   }
@@ -177,7 +181,12 @@ $(function () {
     },
 
     stepTime: function(ms) {
-
+      var start = $('#horizontalViewSizeSlider').dragslider('values')[0];
+      var end = $('#horizontalViewSizeSlider').dragslider('values')[1];
+      start += msToPcm(ms);
+      end += msToPcm(ms);
+      $('#horizontalViewSizeSlider').dragslider('values', [start, end]);
+      this.trigger('sample-size-change', start, end);
     }
 
   });
@@ -229,6 +238,8 @@ $(function () {
   AnalyzeView = Backbone.View.extend({
     el: '#appContainer',
 
+    isPlaying: false,
+
     initialize: function (){
 
       this.canvas = new CanvasView;
@@ -272,8 +283,20 @@ $(function () {
       this.canvas.amplification = times;
     },
 
+    playing : function(oldtime) {
+      var pl = _.bind(this.playing, this);
+      currentTime = new Date().getTime();
+      this.sampleslider.stepTime(currentTime - oldtime);
+      if(this.isPlaying) {
+        _.delay(pl, 33, currentTime);
+      }
+    },
+
     startplayback: function() {
+      this.isPlaying = true;
       this.sampleslider.setReasonableViewingWindow();
+      currentTime = new Date().getTime();
+      this.playing(currentTime);
     }
 
   });
