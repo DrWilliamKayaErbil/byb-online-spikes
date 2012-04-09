@@ -142,12 +142,14 @@ $(function () {
         max: 441000,
         step: 44,
         values: [0, 441000],
-/*        slide: _.bind(function(event,ui){
+        slide: _.bind(function(event,ui){
           this.trigger('sample-size-change',ui.values[0],ui.values[1]);
-        },this), */
+        },this),
+        stop: _.bind(function(event, ui) {
+          this.trigger('redraw');
+        }, this),
         change: _.bind(function(event, ui) {
           this.trigger('sample-size-change',ui.values[0],ui.values[1]);
-          //this.trigger('redraw');
         },this)
       });
 
@@ -169,8 +171,8 @@ $(function () {
 
       var length = end - start;
 
-      if(length > sampleData.length/4){
-        length = sampleData.length/4;
+      if(length > sampleData.length/10){
+        length = sampleData.length/10;
       }
       // Make sure we are at least 20 ms
       if(length < 882) {
@@ -185,6 +187,10 @@ $(function () {
       var end = $('#horizontalViewSizeSlider').dragslider('values')[1];
       start += msToPcm(ms);
       end += msToPcm(ms);
+      if (end >= $('#horizontalViewSizeSlider').dragslider('option', 'max')) {
+        end = $('#horizontalViewSizeSlider').dragslider('option', 'max');
+        this.trigger('stop-playback');
+      }
       $('#horizontalViewSizeSlider').dragslider('values', [start, end]);
       this.trigger('sample-size-change', start, end);
     }
@@ -219,7 +225,7 @@ $(function () {
     },
 
     startplayback: function() {
-      this.trigger('startplayback');
+      this.trigger('start-playback');
     }
   });
 
@@ -251,6 +257,7 @@ $(function () {
       this.sampleslider = new SamplesShownSlider;
       this.sampleslider.on('redraw', this.canvas.draw);
       this.sampleslider.on('sample-size-change', this.setDrawRange, this);
+      this.sampleslider.on('stop-playback', this.stopPlayback, this);
 
       this.redraw = new RedrawButton;
       this.redraw.on('redraw', this.canvas.draw);
@@ -260,7 +267,7 @@ $(function () {
       this.redrawCheckbox.trigger('redrawOnMove', false);
 
       this.playButton = new PlayButton;
-      this.playButton.on('startplayback', this.startplayback, this);
+      this.playButton.on('start-playback', this.startPlayback, this);
 
     },
 
@@ -292,11 +299,15 @@ $(function () {
       }
     },
 
-    startplayback: function() {
+    startPlayback: function() {
       this.isPlaying = true;
       this.sampleslider.setReasonableViewingWindow();
       currentTime = new Date().getTime();
       this.playing(currentTime);
+    },
+
+    stopPlayback: function() {
+      this.isPlaying = false;
     }
 
   });

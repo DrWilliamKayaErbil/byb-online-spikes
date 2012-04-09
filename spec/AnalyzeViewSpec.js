@@ -72,7 +72,7 @@ describe('Analyze View', function() {
       $('#horizontalViewSizeSlider').dragslider('values', 1, this.a.canvas.audioData.length);
 
       // this should cause the setReasonableViewingWindow to get called.
-      this.a.playButton.trigger('startplayback');
+      this.a.playButton.trigger('start-playback');
 
       start = $('#horizontalViewSizeSlider').dragslider('values')[0];
       end = $('#horizontalViewSizeSlider').dragslider('values')[1];
@@ -135,7 +135,7 @@ describe('Analyze View', function() {
     it('triggers startplayback when it is called', function() {
       spyOn(this.a.playButton, 'trigger');
       this.a.playButton.$el.trigger('click');
-      expect(this.a.playButton.trigger).toHaveBeenCalledWith('startplayback');
+      expect(this.a.playButton.trigger).toHaveBeenCalledWith('start-playback');
     });
 
   });
