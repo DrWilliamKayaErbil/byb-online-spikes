@@ -1,5 +1,33 @@
 $(function () {
 
+  function WaveReader(file) {
+    this.file = file;
+
+    this.doneReadingCallback = function() {
+      // overwrite me
+      return null;
+    };
+
+    this.parse = function(){
+      this.reader = new FileReader();
+      curr_obj = this;
+      this.reader.onloadend = function(event){
+        if(event.target.readyState == FileReader.DONE){
+          var arrayView = new Int16Array(event.target.result);
+          var a = [];
+          for (i=22; i<arrayView.length; i++){
+            a.push(arrayView[i]);
+          }
+          curr_obj.pcmdata = a;
+          curr_obj.doneReadingCallback();
+        }
+      };
+      console.log(file);
+      this.reader.readAsArrayBuffer(file);
+    }
+  }
+  window.BackyardBrains.WaveReader = WaveReader;
+
   PCM_MIN = -32768;
   PCM_MAX = 32767;
   BACKGROUND_UI_COLOR = 'rgb(64,128,64)';

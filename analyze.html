@@ -12,7 +12,7 @@
   <script type="text/javascript" src="src/analyze-ui.js"></script>
 
   <script type="text/javascript">
-    var sampleData = {{ sampleData }};
+    // var sampleData = {{ sampleData }};
   </script>
 
   <link rel="stylesheet" type="text/css" href="css/sunny/jquery-ui.css">
@@ -74,9 +74,9 @@
     <div id="uploadForm">
       <h1>Upload new File</h1>
       <p>Currently only Mono 16-bit PCM .wav files are supported</p>
-      <form id="fileForm" action="/upload" method="post" enctype="multipart/form-data">
+      <form id="fileForm" enctype="multipart/form-data">
         <p>
-          <input type="file" name="spikes_file">
+          <input type="file" id="spikes_file">
         </p>
       </form>
     </div>
