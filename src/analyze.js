@@ -193,7 +193,7 @@ $(function () {
         $("#horizontalViewSizeSlider").dragslider("values", 1));
     },
 
-    setReasonableViewingWindow: function() {
+    setReasonableViewingWindow: function(sampleData) {
       var start = $('#horizontalViewSizeSlider').dragslider('values')[0];
       var end = $('#horizontalViewSizeSlider').dragslider('values')[1];
 
@@ -276,6 +276,8 @@ $(function () {
 
     initialize: function (){
 
+      this.wavereader = null;
+
       this.canvas = new CanvasView;
 
       this.ampslider = new AmplificationSlider;
@@ -305,8 +307,9 @@ $(function () {
     },
 
     setWaveData: function(data){
-      this.canvas.audioData = data;
-      this.sampleslider.setSliders(0, data.length);
+      this.canvas.audioData = data.pcmdata;
+      this.wavereader = data;
+      this.sampleslider.setSliders(0, data.pcmdata.length);
     },
 
     setDrawRange: function(from, to) {
@@ -329,9 +332,18 @@ $(function () {
 
     startPlayback: function() {
       this.isPlaying = true;
-      this.sampleslider.setReasonableViewingWindow();
+      this.sampleslider.setReasonableViewingWindow(this.canvas.audioData);
       currentTime = new Date().getTime();
-      this.playing(currentTime);
+
+      var reader = new FileReader();
+      play = this.playing;
+      reader.onload = function(file){
+        var snd = new Audio(file.target.result);
+        console.log(snd);
+        snd.play();
+        play(currentTime);
+      }
+      var dataUrl = reader.readAsDataURL(this.wavereader.file);
     },
 
     stopPlayback: function() {

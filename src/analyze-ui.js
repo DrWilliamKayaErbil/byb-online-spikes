@@ -9,7 +9,7 @@ $(document).ready(function() {
   function triggerApp(file){
     var wr = new BackyardBrains.WaveReader(file);
     wr.doneReadingCallback = function(){
-      BackyardBrains.analyze.setWaveData(this.pcmdata);
+      BackyardBrains.analyze.setWaveData(this);
       BackyardBrains.analyze.redraw.trigger('redraw');
     }
     wr.parse();
