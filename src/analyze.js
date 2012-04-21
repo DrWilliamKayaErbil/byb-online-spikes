@@ -336,14 +336,12 @@ $(function () {
       currentTime = new Date().getTime();
 
       var reader = new FileReader();
-      play = this.playing;
       reader.onload = function(file){
         var snd = new Audio(file.target.result);
-        console.log(snd);
         snd.play();
-        play(currentTime);
       }
       var dataUrl = reader.readAsDataURL(this.wavereader.file);
+      this.playing(currentTime);
     },
 
     stopPlayback: function() {
