@@ -199,8 +199,8 @@ $(function () {
 
       var length = end - start;
 
-      if(length > sampleData.length/10){
-        length = sampleData.length/10;
+      if(length > sampleData.length/50){
+        length = sampleData.length/50;
       }
       // Make sure we are at least 20 ms
       if(length < 882) {
