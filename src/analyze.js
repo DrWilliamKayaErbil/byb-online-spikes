@@ -216,7 +216,9 @@ $(function () {
       start += msToPcm(ms);
       end += msToPcm(ms);
       if (end >= $('#horizontalViewSizeSlider').dragslider('option', 'max')) {
+        var dist = end - start;
         end = $('#horizontalViewSizeSlider').dragslider('option', 'max');
+        start = end - dist;
         this.trigger('stop-playback');
       }
       $('#horizontalViewSizeSlider').dragslider('values', [start, end]);
@@ -332,16 +334,19 @@ $(function () {
 
     startPlayback: function() {
       this.isPlaying = true;
+      this.redrawCheckbox.trigger('redrawOnMove', true);
+      this.redrawCheckbox.$el.prop('checked', true);
       this.sampleslider.setReasonableViewingWindow(this.canvas.audioData);
-      currentTime = new Date().getTime();
 
       var reader = new FileReader();
+      that = this;
       reader.onload = function(file){
         var snd = new Audio(file.target.result);
         snd.play();
+        currentTime = new Date().getTime();
+        that.playing(currentTime);
       }
       var dataUrl = reader.readAsDataURL(this.wavereader.file);
-      this.playing(currentTime);
     },
 
     stopPlayback: function() {
