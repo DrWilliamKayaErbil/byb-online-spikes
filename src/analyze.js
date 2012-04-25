@@ -1,19 +1,59 @@
 $(function () {
 
   function WaveReader(file) {
+    this.DEBUG = true;
+
     this.file = file;
+    this.isValidWave = false;
+    this.isPCM = false;
 
     this.doneReadingCallback = function() {
       // overwrite me
       return null;
     };
 
+    function typedSlice (typedArr, start, end) {
+      return _.toArray(typedArr.subarray(start, end));
+    }
+
+    function sumRange (typedArr, start, end){
+      return _.reduce(typedSlice(typedArr,start,end), function(a,b){return a+b;}, 0)
+    }
+
     this.parse = function(){
       this.reader = new FileReader();
       curr_obj = this;
       this.reader.onloadend = function(event){
         if(event.target.readyState == FileReader.DONE){
-          var arrayView = new Int16Array(event.target.result);
+          orig_result = event.target.result;
+          var headerView = new Uint8Array(orig_result);
+          var arrayView = new Int16Array(orig_result);
+          var uArrayView = new Uint16Array(orig_result);
+          if ( _.isEqual(typedSlice(headerView, 0,4), [82,73,70,70])
+             && _.isEqual(typedSlice(headerView,8,16),[87, 65, 86, 69, 102, 109, 116, 32])) {
+
+            curr_obj.isValidWave = true;
+
+            curr_obj.chunkSize = sumRange(uArrayView, 2, 4);
+            curr_obj.subChunk1size = sumRange(headerView, 16, 20);
+            curr_obj.audioFormat = sumRange(headerView,20,22);
+            if (curr_obj.subChunk1size == 16 && curr_obj.audioFormat == 1){
+              curr_obj.isPCM = true;
+            }
+
+            curr_obj.numChannels = sumRange(headerView,22,24);
+            curr_obj.sampleRate = sumRange(uArrayView, 12, 14);
+
+          }
+          if (curr_obj.DEBUG == true){
+            console.log('chunkSize = ' + curr_obj.chunkSize);
+            console.log('chunkSize Array = ' + typedSlice(headerView,4,8));
+            console.log('subChunk1size = ' + curr_obj.subChunk1size);
+            console.log('audioFormat = ' + curr_obj.audioFormat);
+            console.log('numChannels = ' + curr_obj.numChannels);
+            console.log('sampleRate = ' + curr_obj.sampleRate);
+
+          }
           var a = [];
           for (i=22; i<arrayView.length; i++){
             a.push(arrayView[i]);
