@@ -29,7 +29,6 @@ $(function () {
           var headerView = new Uint8Array(orig_result);
           var arrayView = new Int16Array(orig_result);
           var uArrayView = new Uint16Array(orig_result);
-          var bigUArrayView = new Uint32Array(arrayView);
 
           if ( _.isEqual(typedSlice(headerView, 0,4), [82,73,70,70])
              && _.isEqual(typedSlice(headerView,8,16),[87, 65, 86, 69, 102, 109, 116, 32])) {
@@ -51,22 +50,22 @@ $(function () {
             var readAlign = sumRange(headerView,32,34);
             var checkAlign = curr_obj.numChannels * curr_obj.bitsPerSample/8;
             if (checkAlign != readAlign){
-              alert('invalid block alignment! read ' + readAlign + ' but expected ' + checkAlign);
+              console.log('invalid block alignment! read ' + readAlign + ' but expected ' + checkAlign);
             }
             curr_obj.blockAlign = readAlign;
 
             var checkRate =  curr_obj.sampleRate*curr_obj.numChannels*curr_obj.bitsPerSample/8;
-            var readRate = typedSlice(headerView,28,32);
+            var readRateArray = new Uint32Array(new Uint8Array(headerView.subarray(28,32)).buffer);
+            var readRate = readRateArray[0];
             if (checkRate != readRate){
-              alert('invalid byterate! read ' + readRate + ' but expected ' + checkRate);
+              console.log('invalid byterate! read ' + readRate + ' but expected ' + checkRate);
             }
             curr_obj.byteRate = readRate;
             if(!_.isEqual(typedSlice(headerView, 36,40), [100, 97, 116, 97])) {
-              alert('subChunk2Id is invalid!');
+              console.log('subChunk2Id is invalid!');
             } else{
-              var readSize = typedSlice(uArrayView, 0,32);
-
-              curr_obj.dataSize = readSize;
+              var readSizeArray = new Uint32Array(new Uint8Array(headerView.subarray(40,44)).buffer);
+              curr_obj.dataSize = readSizeArray[0];
             }
 
           }
@@ -85,6 +84,10 @@ $(function () {
           var a = [];
           for (i=22; i<arrayView.length; i++){
             a.push(arrayView[i]);
+            // always take leftmost channel
+            if (curr_obj.numChannels > 1){
+              i += curr_obj.numChannels - 1;
+            }
           }
           curr_obj.pcmdata = a;
           curr_obj.doneReadingCallback();
