@@ -1,0 +1,76 @@
+<html>
+  <head>
+  <title>Backyard Brains Spikes Analyzer</title>
+  <script type="text/javascript" src="lib/jquery.min.js"></script>
+  <script type="text/javascript" src="lib/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="lib/jquery.ui.dragslider.js"></script>
+  <script type="text/javascript" src="lib/underscore.js"></script>
+  <script type="text/javascript" src="lib/backbone-min.js"></script>
+  <script type="text/javascript" src="lib/webgl-2d.js"></script>
+  <script type="text/javascript" src="src/byb.js"></script>
+  <script type="text/javascript" src="src/analyze.js"></script>
+  <script type="text/javascript" src="src/continuous-ui.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="css/sunny/jquery-ui.css">
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+  </head>
+  <body>
+    
+    <div id="appContainer" class="ui-corner-all">
+      <div class="ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" id="title-holder">
+        <h3 id="demo-title">Backyard Brains Live Spike Viewer</h3>
+      </div>
+
+      <table>
+        <tr>
+          <td>
+            <div id="amplificationHolder" class="verticalScrollbarHolder">
+              <input type="text" id="amplificationAmt" class="sliderValue" />
+              <div id="amplificationSlider"></div>
+            </div>
+          </td>
+          <td>
+            <div id="waveformHolder" class="ui-corner-all">
+              <canvas id="waveformCanvas" width="865" height="400" class="ui-corner-all"></canvas>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div id="samplesShownHolder" class="horizontalScrollbarHolder ui-widget
+                                          ui-state-highlight ui-corner-all">
+        <div id="horizontalViewSizeSlider"></div>
+        <label for="numberOfSamplesShown">Amount of time shown:</label>
+        <input type="text" id="numberOfSamplesShown" class="sliderValue" />
+      </div>
+
+      <br clear="all" />
+
+      <table class="buttonHolder">
+        <tr>
+          <td>
+            <input type="checkbox" id="redrawCheckbox" />
+            <label for="redrawCheckbox">Check here to allow update
+            the wave as controls are changed. (Can be very slow on
+            non-GL browsers!)</label>
+          </td>
+          <td>
+            <input type="button" id="redrawButton" value="Redraw the wave" />
+          </td>
+          <td>
+            <div class="buttonHolder">
+              <input type="button" id="playback" value="Play" />
+            </div>
+          </td>
+        </tr>
+      </table>
+
+    </div>
+      <object classid="java:MicDataSpewer.class"
+      type="application/x-java-applet" archive="MicDataSpewer.jar"
+              height="80" width="400" code="MicDataSpewer">
+        <param name="MAYSCRIPT" value="true" />
+      </object>
+  </body>
+
+
+</html>

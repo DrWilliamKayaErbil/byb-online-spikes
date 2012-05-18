@@ -149,7 +149,8 @@ $(function () {
 
       audioData = this.audioData;
       if (!(audioData instanceof Array)) {
-        throw "Not an array";
+        //throw "Not an array";
+        console.log(typeof audioData);
       }
 
       this.context.clearRect(0,0,this.width,this.height);
