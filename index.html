@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <title>Backyard Brains Data Analysis </title>
+    <script type="text/javascript" src="lib/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/sunny/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+
+  </head>
+<body>
+  <div class="topright"><img src="media/bw-logo.png"></div>
+  <div id="appContainer" class="ui-corner-all">
+    <div class="ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" id="title-holder">
+      <h3 id="demo-title">Data Analysis Tools</h3>
+    </div>
+
+    <table id="select-a-mode">
+      <tr>
+        <th>Analyze a wave file</th>
+        <th>Watch live data input</th>
+      </tr>
+      <tr>
+        <td>
+          <a id="analyze-mode-button" class="big-button" href="analyze.html">
+            &#10704;
+          </a>
+        </td>
+        <td>
+          <a href="continuous.html" class="big-button" id="continuous-mode-button">
+            &#8767;
+          </a>
+        </td>
+      </tr>
+    </table>
+
+  </div>
+  <div id="beta-dialog-box">
+    <h1>Whoa there cowboy, we're in Beta!</h1>
+    <p>Welcome to our online data analysis tools. Right now, this section is still in beta. Some features will not work in certain browsers, and since we work on the cutting edge of technology, some features may even slow down or crash your browser. However, since we're so excited to be working on such sweet projects, we're making them available to you early so you can explore the world with us. Just don't tell our bosses we let you in...</p>
+  </div>
+    <script type="text/javascript">
+    $('#beta-dialog-box').dialog({
+      height: 350,
+      width: 450,
+      modal: true,
+      buttons: {
+        Close: function() {
+          $( this ).dialog( "close" );
+        }
+      },
+      close: function() {}
+    });
+    </script>
+</body>
+</html>

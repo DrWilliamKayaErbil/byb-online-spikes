@@ -59,3 +59,46 @@ label {
   font-size: 0.9em;
 }
 
+#select-a-mode {
+  width: 100%;
+  margin: 30px auto;
+  text-align: center;
+}
+
+.big-button {
+  margin: 0px auto;
+  width: 200px;
+  height: 200px;
+  display: block;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -khtml-border-radius: 50%;
+  border:#333 16px double;
+  font-size: 10em;
+  color: #333;
+  line-height: 180px;
+  text-shadow: .0125em .025em .025em #ccc;
+  text-decoration: none;
+  text-align: center;
+  background: #777;
+}
+
+.big-button:hover {
+  border: #666 16px double;
+  color: #555;
+  text-decoration: none;
+  background: #a3a3a3
+}
+
+div.topright{
+  z-index:-1;
+  display:block;
+  -moz-transform: scale(2.5) rotate(-14deg);
+  -webkit-transform: scale(2.5) rotate(-14deg);
+
+  /*set the div in the top right corner*/
+  position:absolute;
+  top:300;
+  left:100;
+}
