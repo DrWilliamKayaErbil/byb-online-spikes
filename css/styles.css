@@ -59,7 +59,7 @@ label {
   font-size: 0.9em;
 }
 
-#select-a-mode {
+.select-a-mode {
   width: 100%;
   margin: 30px auto;
   text-align: center;

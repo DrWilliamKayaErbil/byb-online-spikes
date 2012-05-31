@@ -1,3 +1,4 @@
 server/venv/
 *.pyc
 .project
+*.mp3
